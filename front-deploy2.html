@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <!-- 코드 하이라이트 monokai.sublime -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    
+    <!-- 나눔고딕 폰트 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+    
+    <!-- Font Awesome 아이콘 사용 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- custom.css -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/custom.css" />
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="나만의 TIL 블로그" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/front-deploy2" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="IT Technical Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)" />
+    <meta property="og:description" content="AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) 어제 우리는 CloudFront설정까지 끝냈다. 이제 두 가지 정도의" />
+    <meta property="og:url" content="http://localhost:4000/front-deploy2" />
+    <meta property="og:image" content="http://localhost:4000/assets/built/images/aws_cover.png" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2021-02-07T18:00:00+09:00" />
+    <meta property="article:modified_time" content="2021-02-07T18:00:00+09:00" />
+    <meta property="article:tag" content="Aws" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)" />
+    <meta name="twitter:description" content="AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) 어제 우리는 CloudFront설정까지 끝냈다. 이제 두 가지 정도의" />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/built/images/aws_cover.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="IT Technical Blog" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Aws" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:creator" content="@" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "IT Technical Blog",
+        "logo": "http://localhost:4000/"
+    },
+    "url": "http://localhost:4000/front-deploy2",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/built/images/aws_cover.png",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/front-deploy2"
+    },
+    "description": "AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) 어제 우리는 CloudFront설정까지 끝냈다. 이제 두 가지 정도의"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">IT Technical Blog</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <!-- <li class="nav-about" role="menuitem"><a href="/about/">About</a></li> -->
+    <li class="nav-javascript" role="menuitem"><a href="/tag/javascript/">JavaScript</a></li>
+    <li class="nav-ts" role="menuitem"><a href="/tag/ts/">typescript</a></li>
+    <li class="nav-react" role="menuitem"><a href="/tag/react/">React</a></li>
+    <li class="nav-aws" role="menuitem"><a href="/tag/aws/">Aws</a></li>
+    <li class="nav-github" role="menuitem"><a href="/tag/github/">Github 블로그</a></li>
+    <li class="nav-archive" role="menuitem">
+        <a href="/archive.html">All Posts</a>
+    </li>
+    <li class="nav-archive" role="menuitem">
+        <a href="/author_archive.html">Tag별 Posts</a>
+    </li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+        </div>
+        
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-aws post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 7 February 2021"> 7 February 2021</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/aws/'>AWS</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/built/images/aws_cover.png)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <p><span class="table-of-contents-list">AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.<br /></span>
+<span class="table-of-contents-list">해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    <br />혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+</span></p>
+<ul class="table-of-contents-list">
+    <li><a href="./front-deploy">AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) </a></li>
+    <li><a href="./front-deploy2">AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) </a></li>
+</ul>
+
+<p><br />
+<br />
+<br /></p>
+
+<p>어제 우리는 <code class="highlighter-rouge">CloudFront</code>설정까지 끝냈다.
+이제 두 가지 정도의 과정이 남았는데 한가지는 <code class="highlighter-rouge">Route53</code>과 <code class="highlighter-rouge">AWS cerification</code>을 이용할 것이다.</p>
+
+<p>여기서 의문을 갖는 사람도 있을 것이라 생각한다. 전 과정 첫번째에서 이미 무료로 <code class="highlighter-rouge">DNS</code>를 만들었는데 
+왜 <code class="highlighter-rouge">Route53</code>을 또 쓰는지에 관한 의문일 것이라 생각한다.</p>
+
+<p>그 이유는 <code class="highlighter-rouge">HTTPS 프로토콜</code>을 위한 인증서를 받는 과정의 일환으로써 이용하는 것이다.</p>
+
+<p>우선 <code class="highlighter-rouge">Route 53</code>에 접속하여 호스팅 영역 생성을 해주자.</p>
+
+<p>이전 과정 <code class="highlighter-rouge">Freenom</code>에서 생성했던 도메인으로 넣어주면 되겠다 이후 완료 <code class="highlighter-rouge">영역 생성 버튼</code>을 눌러주자
+(ex : example.com)</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111439053-4f22ae00-8748-11eb-8958-c7285ad9d94d.png" alt="img1" /></p>
+
+<p>결과물로 아래와 같이 4개의 ns 값이 생성되는데 이 주소를 그대로 복사하고 
+<code class="highlighter-rouge">Freenom</code>으로 다시 이동하자</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111439621-e5ef6a80-8748-11eb-94f4-1ac7870dc402.png" alt="img2" /></p>
+
+<p>위의 4개를 아래의 위치에 붙여 넣어주자
+<code class="highlighter-rouge">Freenom</code> -&gt; <code class="highlighter-rouge">manage domain</code> -&gt; <code class="highlighter-rouge">management tool</code> -&gt; <code class="highlighter-rouge">name server</code> -&gt; <code class="highlighter-rouge">Use custom</code></p>
+
+<blockquote>
+  <p>단 4개의 주소 끝의 <code class="highlighter-rouge">.</code>은 제외하도록 한다</p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111440200-775edc80-8749-11eb-88e1-3d9233d3a404.png" alt="img3" /></p>
+
+<p>다시 <code class="highlighter-rouge">Route 53</code>으로 돌아와서 <code class="highlighter-rouge">레코드 생성</code> 버튼을 눌러주자</p>
+
+<blockquote>
+  <p>만약 빠른 레코드 생성으로 접속되었다면 <code class="highlighter-rouge">마법사로 전환</code> 버튼을 클릭하자</p>
+</blockquote>
+
+<p>첫 화면에서 <code class="highlighter-rouge">라우팅 정책</code>은 Default 값인 단순 라우팅을 선택하고 넘어가자
+그 후 <code class="highlighter-rouge">레코드 구성 탭</code>에서 <code class="highlighter-rouge">레코드 생성</code> 버튼을 클릭하자</p>
+
+<p>첫 번째 원에는 <code class="highlighter-rouge">Freenom</code>에서 발급받은 주소가 적혀 있을 것이고
+두 번째 <code class="highlighter-rouge">값/트래픽 라우팅 대상</code>은 <code class="highlighter-rouge">CloudFront 배포에 대한 별칭</code> <code class="highlighter-rouge">미국 동부</code>로 선택하자
+그리고 배포 선택에는</p>
+
+<p><code class="highlighter-rouge">CloudFront</code> -&gt; <code class="highlighter-rouge">Distribution settings</code>-&gt; <code class="highlighter-rouge">general</code> -&gt; <code class="highlighter-rouge">domain name</code>
+복사하여 넣어주고 생성하면 완료된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111441627-d4a75d80-874a-11eb-9eef-7e4988adad04.png" alt="img4" /></p>
+
+<p>이제 <code class="highlighter-rouge">AWS Certification</code>을 이용하여 인증서를 발급받기 위해
+<code class="highlighter-rouge">AWS Certificate Manager</code>로 접속하자
+그럼 <code class="highlighter-rouge">인증서 프로비저닝</code>과 <code class="highlighter-rouge">사설 인증 기관</code> 두 가지 항목 중 <code class="highlighter-rouge">인증서 프로비저닝</code>으로 시작한다</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111446429-bdb73a00-874f-11eb-8d78-73fc635f217d.png" alt="img5" /></p>
+
+<p>아래와 같이 <code class="highlighter-rouge">Freenom</code>에서 발급 받은 주소를 <code class="highlighter-rouge">www.</code>을 붙인 것과 안 붙인것 두 개를 넣어주자</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111446954-4afa8e80-8750-11eb-901b-8279384fea62.png" alt="img6" /></p>
+
+<p>아래 과정을 실행하고 나오는 <code class="highlighter-rouge">태그 추가</code>는 생략하고 넘어가자</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111447212-8dbc6680-8750-11eb-9118-221ff34f9e94.png" alt="img7" /></p>
+
+<p>아래와 같은 화면이 나오면 <code class="highlighter-rouge">도메인</code>명을 클릭하여 주자 그럼 그 아래 사진과 같은 버튼이 활성화 되니
+두 개 모두 활성화 시키자 그럼 자동으로 <code class="highlighter-rouge">cname값</code>이 추가 된다</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111447615-f3a8ee00-8750-11eb-98f3-a20f11fd7527.png" alt="img8" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111447801-23f08c80-8751-11eb-9540-cdf43ec496dd.png" alt="img9" /></p>
+
+<p>이제 발급될 때까지 기다리도록 하자 경우에 따라 발급받는데 시간이 걸릴 수도 있으니 여유를 가지고 기다리도록하자. 
+검증 성공으로 발급이 완료가 되었다면</p>
+
+<p><code class="highlighter-rouge">CloudFront</code>로 돌아가서 <code class="highlighter-rouge">Distribution settings</code>에 <code class="highlighter-rouge">General</code> <code class="highlighter-rouge">Edit</code>로 들어가 주자</p>
+
+<p><img src="https://user-images.githubusercontent.com/45046152/111491178-fde1e100-877e-11eb-9da7-6a9b638f6d8b.png" alt="img9" /></p>
+
+<p><code class="highlighter-rouge">CNAMEs</code>에는 인증서 발급 때 적었던 <code class="highlighter-rouge">도메인 명</code>을 적어주자 ex) example.com
+                                                                                                          www.example.com
+규칙으로는 다음 줄에 이어서 적어도 되고 <code class="highlighter-rouge">,</code>를 이용하여 추가하여도 된다</p>
+
+<blockquote>
+  <p>인증서가 정상적으로 발급되었다면 <code class="highlighter-rouge">SSL Certificate</code>에 <code class="highlighter-rouge">Custom SSL Ceritificate</code>가  활성화 되었을 것이다.  위 그림에서 세 번째 원을 클릭해서 인증서를 선택할 수 있다
+반대로 인증서가 발급되었는데 활성화가 되지 않았거나 클릭이 안된다면 ` 쿠키`를 모두 삭제하고 다시 로그인하여 보자.</p>
+
+  <p>보시다시피 위 사진처럼 활성화가 안되서 당황했지만 이 같은 방법으로 해결이 되었으니 참고 바란다</p>
+</blockquote>
+
+<p>이제 인증서를 추가했기 때문에 <code class="highlighter-rouge">General</code> 탭에서 <code class="highlighter-rouge">Behaviors</code> 탭 으로 이동하여
+<code class="highlighter-rouge">Edit</code>에 있는 <code class="highlighter-rouge">Viewer Protocol Policy</code> 항목을</p>
+
+<p><code class="highlighter-rouge">HTTP and HTTPS</code>에서 <code class="highlighter-rouge">Redirect HTTP to HTTPS</code>로 바꿔 완료해주자</p>
+
+<p>이제 모든 작업이 끝낫으니 본인의 사이트로 이동하여<code class="highlighter-rouge"> HTTPS 프로토콜</code>을 이용하는지 확인하자</p>
+
+<p>이것으로 클라이언트 배포 부분을 마치겠다.</p>
+
+                </div>
+            </section>
+
+            
+            <!-- Email subscribe form at the bottom of the page -->
+            <!--
+            
+                <section class="subscribe-form">
+                    <h3 class="subscribe-form-title">Subscribe to IT Technical Blog</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+                </section>
+            
+            -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/ghost.png" alt="kirk0201" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/kirk0201">Kirk0201</a></h4>
+                                
+                                    <p>풀스택 개발자를 목표로 준비중입니다.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/kirk0201">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            this.page.url = 'http://localhost:4000/front-deploy2';
+                            this.page.identifier = '/front-deploy2';
+                            this.page.title = 'AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://xxxxxxxx.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/sky.jpg)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; IT Technical Blog &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/aws/">Aws</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/server-deploy2">AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(2)</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/server-deploy">AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(1)</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/front-deploy">AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (1)</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/aws/">
+                                
+                                    See all 3 posts  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/server-deploy">
+                <div class="post-card-image" style="background-image: url(/assets/built/images/aws_cover.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/server-deploy">
+                <header class="post-card-header">
+                    
+                        
+                            
+                                <span class="post-card-tags">Aws</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(1)</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/ghost.png" alt="Kirk0201" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/kirk0201/">Kirk0201</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/front-deploy">
+                <div class="post-card-image" style="background-image: url(/assets/built/images/aws_cover.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/front-deploy">
+                <header class="post-card-header">
+                    
+                        
+                            
+                                <span class="post-card-tags">Aws</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (1)</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/ghost.png" alt="Kirk0201" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/kirk0201/">Kirk0201</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+            <span>IT Technical Blog</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=AWS%EB%A5%BC+%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC+%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8+%EB%B0%B0%ED%8F%AC+%EB%B0%8F+HTTPS+%EC%9D%B8%EC%A6%9D+%EB%B0%9B%EA%B8%B0+%282%29&amp;url=https://kirk0201.github.io/front-deploy2"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://kirk0201.github.io/front-deploy2"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">IT Technical Blog</a> &copy; 2021</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+        <div id="subscribe" class="subscribe-overlay">
+            <a class="subscribe-overlay-close" href="#"></a>
+            <div class="subscribe-overlay-content">
+                
+                <h1 class="subscribe-overlay-title">Subscribe to IT Technical Blog</h1>
+                <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+                <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+            </div>
+        </div>
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-xxxxxxxx-x', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

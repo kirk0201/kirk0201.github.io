@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator>
+  <link href="http://localhost:4000/tag/github/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2021-03-28T07:17:56+09:00</updated>
+  <id>http://localhost:4000/tag/github/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">IT Technical Blog | </title>
+  
+
+  
+    <subtitle>나만의 TIL 블로그</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Github pages로 블로그 만들기(2)</title>
+      <link href="http://localhost:4000/github-pages-install2" rel="alternate" type="text/html" title="Github pages로 블로그 만들기(2)" />
+      <published>2021-02-03T01:00:00+09:00</published>
+      <updated>2021-02-03T01:00:00+09:00</updated>
+      <id>http://localhost:4000/github-pages-install2</id>
+      <content type="html" xml:base="http://localhost:4000/github-pages-install2">&lt;p&gt;이전 포스트에 이어서 설치를 이어가겠다.
+마지막에 로컬에서 서버를 열어서 블로그가 열리긴했지만,
+빌드를 할때 수많은 에러들이 올라간것을 봤을 것 이다.&lt;/p&gt;
+
+&lt;h2 id=&quot;에러-해결&quot;&gt;에러 해결&lt;/h2&gt;
+
+&lt;p&gt;아래처럼 사진 위쪽이 모두 에러다.
+이 에러를 해결해 보도록 하자. 
+개인적으로 이 에러를 해결하기 위해 가장 오랜 시간이 걸렸다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1MgEDQj66ijeDU0QV6kFRe1numc_3o3sB&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 댓글이 나를 살렸다…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1KEhXC4ldyzfKdjGPM3lNGiZbDrKY3Whx&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;기존에 열었던 &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt;을 다시 열어서 아래와 같이 바꿔주자!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1EcrRd25lOJllxp8EpUxMuURrBq_NF2Pv&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle update jekyll&lt;/code&gt;을 실행해준다.
+다시 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;를 실행해준다.
+드디어 아래와 같이 깔끔하게 에러가 해결이 되었다!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1kd3Ah8Ll2lSai3T50Kvjy0LfFKXYapFM&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 배포를 해보자
+우선 Github로 가서 새로운 repo를 생성한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;단 repo명은 &lt;code class=&quot;highlighter-rouge&quot;&gt;(githubname).github.io&lt;/code&gt;로 생성한다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1dPyBmgt0OmqL-ugpcnmTC3I3-zJ_k52w&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아까 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;를 한 결과를 다시 살펴보면 아래처럼 어느 경로로 빌드파일을 저장했는지 알 수 있다. 
+우린 나중에 해당 폴더를 &lt;code class=&quot;highlighter-rouge&quot;&gt;Git repo&lt;/code&gt;로 올려서 배포해주는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1K_g6U8f93T1EK5XH4dui2vkWQFeuEA9p&quot; alt=&quot;img6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위에 사진처럼 다른 상위 폴더에서 조작할 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;git&lt;/code&gt;설정을 할때 불편한 부분이 있을 수 있어서 블로그 폴더에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; 이라는 파일을 찾아서 
+자신에 맞는 개인정보로 바꿔준뒤 진행하겠다. 변경한 부분은 코드 위에 간단한 설명과 함께 &lt;code class=&quot;highlighter-rouge&quot;&gt;#한글&lt;/code&gt;로 표현하였다&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Jekyll configuration&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;markdown: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kramdown&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;highlighter: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rouge&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;paginate: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# it will paginate after this number&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;language: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'en-uk'&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;words_per_minute: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# edit baseurl to simply '/' if using as your personal page (instead of a project page)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# /로 설정&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;baseurl: &lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/
+
+# Website info
+title: Ghost
+description: The professional publishing platform
+cover: assets/im&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cover&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;jpg&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;logo: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;logo_dark: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;favicon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;favicon: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;favicon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;CNAME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#add cname for website to be created&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Social info&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;navigation: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;True&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# show the navbar links&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;subscribers: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;True&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# you need to connect an external service for this to work,&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# if 'True' the submit button is disabled for now, but you can change that&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# by editing `_includes/subscribe-form.html`&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;twitter:  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# replace by your username&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;facebook:  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# replace by your username&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 댓글 기능을 이용할때 필요한 정보&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Disqus&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;disqus: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;disqus_shortname: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# replace with your disqus username&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Google Analytics&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;google_analytics: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;UA&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;69281367&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# replace with your GA tracking identifier&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Permalinks&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;permalink: &lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/:title
+# permalink: /&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:author&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# permalink: /tag/:tag&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Authors' info in `_data/authors.yml`&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Tags' info in `_data/tags_info.yml`&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# gems and other configs&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;plugins_dir: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_plugins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;plugins: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paginate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;ss&quot;&gt;feed:
+  path: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;xml&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Additional settings available on the front-matter&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Site logo in the index.html (as in demo.ghost.io)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Author's page cover in _layouts/author.html&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# The same for page.html and tag.html layouts&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Post's page cover as a per-post basis _posts/...&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Disqus comments as a per-post basis&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Settings for building master branch with travis-ci&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# with jekyll-travis&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Settings for deploy rake task&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Username and repo of Github repo, e.g.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# https://github.com/USERNAME/REPO.git&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# username defaults to ENV['GIT_NAME'] used by Travis&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# repo defaults to USERNAME.github.io&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Branch defaults to &quot;source&quot; for USERNAME.github.io&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# or &quot;master&quot; otherwise&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;safe: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;lsi: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;False&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Github 계정명&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;username: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Github repo 명&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;repo: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;io&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;branch: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;relative_source: 
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# 빌드 경로 설정 (기존 설정은 상위 폴더에 있어 git작업에 불편함이 있어서 아래처럼 바꿧다)&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;destination: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jasper2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 최종적으로 블로그로 이용될 주소&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;production_url:  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Github repo 주소&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;source_url:  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 빌드할때 포함하지 않을 폴더나 파일을 지정해준다.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 위에서 현재폴더로 빌드경로를 바꿧기 때문에 아래 첫번째 줄 처럼 jasper2-pages를 추가해준다&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;exclude:
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jasper2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pages&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;css&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node_modules&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;travis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;yml&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Gemfile&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Gemfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;lock&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;GHOST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;txt&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gulpfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;LICENSE&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;json&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;json&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Rakefile&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;README&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;md&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;py&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;changelog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;md&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;*.Rmd&quot;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;많은 설정을 바꿧기 때문에 다시 빌드를 해준하고 진행하자.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 블로그 폴더를 확인해보면 같은 폴더안에 jasper2-pages가 생성된 것을 확인할 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;기존에 상위에 생긴 폴더는 필요없으니 지워주도록 하자&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;지금부터는 편의상 &lt;code class=&quot;highlighter-rouge&quot;&gt;Git bash&lt;/code&gt;를 이용하겠다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Git bash&lt;/code&gt;로 &lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2-pages&lt;/code&gt;폴더로 이동한뒤 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;git&lt;/code&gt;을 이용하기 위해 &lt;code class=&quot;highlighter-rouge&quot;&gt;git init&lt;/code&gt;을 하여 활성화 하자.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com@DESKTOP-DQ7PCJE MINGW64 /d/blog
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;jasper2-pages/
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/blog/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+Initialized empty Git repository &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;D:/jasper2-pages/.git/
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;아까 &lt;code class=&quot;highlighter-rouge&quot;&gt;Github repo&lt;/code&gt;를 생성한 화면으로 돌아가면 아래와 같은 코드가 있을 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1e2p5bO6BasmtM8Oalx0gJrax7cetdMTT&quot; alt=&quot;img7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 코드를 이어서 적어 넣자&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com@DESKTOP-DQ7PCJE MINGW64 /d/blog/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add origin https://github.com/kirk0201/kirk0201.github.io.git
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/blog/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; // 해당 코드로 위에 remote가 잘 적용되었는지 확인해보자
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 해당 폴더의 파일들을 &lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt;메세지를 작성한뒤 &lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;하여 올려주면 된다&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com@DESKTOP-DQ7PCJE MINGW64 /d/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; // 모든 파일을 add함
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;블로그 첫 배포&quot;&lt;/span&gt;
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push origin master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Github repo&lt;/code&gt;에 업데이트가 되었는지 확인한뒤
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Github계정명.github.io&lt;/code&gt;로 브라우저에서 접속해 보면 성공이다!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;_config.yml에서 설정이 잘못된 경우 빌드가 제대로 되지 않아 사진이 깨질수 있으니 주의하길 바란다.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;p&gt;기본적으로 Jekyll build는 &lt;code class=&quot;highlighter-rouge&quot;&gt;development&lt;/code&gt; 세팅된다. 만약 실제 GitHub Page에 Publishing할 목적으로 build하는 것이라면 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;JEKYLL_ENV&lt;/code&gt; 환경변수의 값을 &lt;code class=&quot;highlighter-rouge&quot;&gt;production&lt;/code&gt;으로 설정한 후 build를 진행해야 합니다. (&lt;a href=&quot;https://jekyllrb.com/docs/configuration/environments/&quot;&gt;참고링크&lt;/a&gt;)&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1Zd9HLMiqpqhrWcGTXC6MeYDdVGjqKdES&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Kirk0201</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="github" />
+      
+
+      
+        <summary type="html">이전 포스트에 이어서 설치를 이어가겠다. 마지막에 로컬에서 서버를 열어서 블로그가 열리긴했지만, 빌드를 할때 수많은 에러들이 올라간것을 봤을 것 이다.</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Github pages로 블로그 만들기(1)</title>
+      <link href="http://localhost:4000/github-pages-install" rel="alternate" type="text/html" title="Github pages로 블로그 만들기(1)" />
+      <published>2021-02-02T17:00:00+09:00</published>
+      <updated>2021-02-02T17:00:00+09:00</updated>
+      <id>http://localhost:4000/github-pages-install</id>
+      <content type="html" xml:base="http://localhost:4000/github-pages-install">&lt;p&gt;&lt;span class=&quot;table-of-contents-list&quot;&gt;Github pages를 이용한 블로그 만들기는 여러 절로 구성되어 있습니다. &lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./github-pages-install&quot;&gt;Github pages를 이용한 블로그 만들기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./github-pages-install2&quot;&gt;Github pages를 이용한 블로그 만들기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+여지껏 Notion에 TIL을 작성해 오다가 문득 이런 생각이 들었다. 공부한것을 나만 보기엔 
+조금 아깝지 않는가?라는 생각 말이다. 그래서 지금이라도 남들한테도 조금 티를 내보기 위해 
+블로깅을 시작하기로 했다.
+그래서 플랫폼을 생각해보다가 Github 잔디도 채우며 두 마리토끼를 잡을 수 있는 &lt;strong&gt;Github Pages&lt;/strong&gt;를 이용하기로 했다.
+사실 이 글을 거의 3일전에 준비했지만 준비중 여러가지 에러가 많이 생겨 지금에서야 적게 되었다.&lt;/p&gt;
+
+&lt;h2 id=&quot;github-pages란-무엇인가&quot;&gt;&lt;strong&gt;Github Pages란 무엇인가?&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Github 저장소에 있는 내용을 바탕으로 무료로 웹페이지를 통해 보여줄 수 있는 서비스이다. 
+즉 무료로 웹 서버를 구축할 수 있다. 그리고 깃허브에서 제공하는 &lt;u&gt;정적 사이트 호스팅 서비스&lt;/u&gt;로 
+정적 사이트 생성기인 Jekyll을 지원한다&lt;/p&gt;
+
+&lt;h2 id=&quot;정적-사이트-호스팅-서비스란&quot;&gt;&lt;strong&gt;정적 사이트 호스팅 서비스란&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;정적 웹페이지는 쉽게 말해 동적 웹 페이지와 반대 되는 말로써
+서버에 있는 데이터를 스크립트에 의해 가공하여 전달하는 것이 아니라
+서버에 미리 저장되있던 파일을 그대로 전달하는 사이트를 호스팅하는 서비스를 말한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;즉 따로 가공이 필요없는 정적인 데이터를 미리 빌드하여 저장한 것을 호스팅 해주는 서비스라고 할 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;그리고 이 블로그를 준비하면서 접하게된 &lt;a href=&quot;http://jekyllrb-ko.github.io/&quot;&gt;jekyll&lt;/a&gt;에 대해서도 간략하게 알아보겠다
+jekyll은 정적인 웹사이트 생성기로 Ruby언어를 기반으로 제작되었으며 마크업 언어로 작성된 텍스트를 이용하여 
+레이아웃을 사용해 정적 웹사이트를 생성해주는 도구로 생각하면 편하겠다.&lt;/p&gt;
+
+&lt;p&gt;이제 본격적으로 설치를 해보겠다
+현재 Windows10 환경에서 설치를 진행하였다.&lt;/p&gt;
+
+&lt;h2 id=&quot;ruby와-jekyll-설치&quot;&gt;Ruby와 Jekyll 설치&lt;/h2&gt;
+
+&lt;p&gt;Jekyll을 사용하기 위해선 Ruby가 설치 되어 있어야 하므로 Ruby부터 설치해보겠다.
+나는 현재 윈도우 환경에서 진행하고 있기에 윈도우를 기준으로 설명하겠다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Windows10 환경에서 진행할때 혹시  계정명이 한글이라면 영문으로 바꾸고 시작하자.
+Ruby가 한글 지원이 좋지 못하기 때문에 에러가 발생할 수 있다고 한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;루비-다운로드--httpswwwruby-langorgkodownloads&quot;&gt;루비 다운로드 : &lt;a href=&quot;https://www.ruby-lang.org/ko/downloads/&quot;&gt;https://www.ruby-lang.org/ko/downloads/&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;해당페이지로 이동하면 각 OS별로 설치하는 방법이 설명 되어있는데 필자는 Windows환경이므로 위 페이지에 있는 RubyInstaller 링크에 들어가서 설치를 해보겠다.&lt;/p&gt;
+
+&lt;p&gt;해당 링크를 들어가서 Download를 누르면 아래페이지가 나오는데
+아래 표시한데로 추천 버전이 존재하니 해당 버튼을 눌러 다운을 하였다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1aLIw_tWoJ9wNIH8Mc_QEtGdAhv51qCUP&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다운을 받고 설치를 완료하자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1uF7Lse6RHVJAMy5DLXbXcQAJNGmL8bYq&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 사진을 표시한 이유는 디폴트 설치영역이 C:이지만 필자는 C에 용량이 얼마 남지 않아 어쩔수없이 D:로 설치하는 것이니 착오 없길 바란다.
+나와 같은 이유가 아니라면 특별히 건드릴것 겂이 install을 하길 바란다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1OBZAayjLKig1alC83ylj9faNIb1w43Ct&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;설치가 완료되면 아래와 같이 나오는데 1번 3번을 선택하라 나오는데 우린 1번을 선택하여 설치를 이어가자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1Eqhus8BCds2Yr8xlF4AJuChwR7C1ehuZ&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같은 화면이 표시되었다면 설치가 완료된 것이다. 다음 단계로 넘어가자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1WAa-_TJUB8yIdbNJqze1NvWbYXiyuq_-&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;루비를 모두 설치하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt;를 설치한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;gem&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;install&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bundler&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;설치가 제대로 되었는지 확인한다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;C:\Users\com&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;4.2.0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt;는 Ruby application 개발을 위한 일관된 환경을 제공한다.
+우린 gem의 dependency관리하는 기능을 이용할 것이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;node.js에 npm이나 python pip과 같은 역할이라고 생각해도 될듯하다
+추후 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;을 이용하여 Gemfile에 있는 젬들을 설치할 것이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;여기까지 준비과정은 모두 마쳤다.
+이제 다양한 Jekyll Themes에서 마음에 드는 템플릿을 골라보자&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;http://jekyllthemes.org/&lt;/li&gt;
+  &lt;li&gt;https://jekyllthemes.io/free&lt;/li&gt;
+  &lt;li&gt;http://themes.jekyllrc.org/&lt;/li&gt;
+  &lt;li&gt;https://github.com/topics/jekyll-theme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;필자는 &lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2&lt;/code&gt;라는 Theme를 골라서 이용해보겠다.
+테마를 가져와서 사용하는 방법은 &lt;code class=&quot;highlighter-rouge&quot;&gt;fork&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;download&lt;/code&gt;가 있지만
+조금 더 설명하기 간편한 &lt;code class=&quot;highlighter-rouge&quot;&gt;download&lt;/code&gt;를 이용하겠다.&lt;/p&gt;
+
+&lt;p&gt;테마를 다운받고 압축을 푼다 필자는 미리  &lt;code class=&quot;highlighter-rouge&quot;&gt;D:/blog&lt;/code&gt;폴더를 준비하여
+해당 폴더에 압축을 풀었다. 혹시 CMD를 두려워하는 사람을 위해 자세하게 적겠다.
+필자는 명령 프롬프트(cmd)를 이용하여 진행하였다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;C:\Users\com&amp;gt; D:       // D드라이브로 이동
+D:\&amp;gt;cd blog            // blog폴더로 이동
+D:\blog&amp;gt;bundle install // 해당 폴더 Gemfile에 있는 젬 설치하는 명령어
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;다음과 같이 표시 된다면 정상적으로 설치가 된것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1vCi2EEQDLK2sasCmUiiyveHPiFaKwKtd&quot; alt=&quot;img6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;을 이용하여 사이트를 빌드하여 로컬 서버에 적용한다&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;D:\blog&amp;gt; bundle exec jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;여기서 끝났다면 좋겠지만 아쉽게도 아래처럼 에러가 하나 발생한다
+다른 테마에서도 발생안할수도 있지만 혹시 발생한다면 아래에 있는 문구를 복사하여주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1vA0onA5s2h-n69BcFyMVYmApJAhrg6pr&quot; alt=&quot;img7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그리고 해당 테마가있는 폴더로 와서 Gemfile을 열어준다 필자는 워드패드로 열어서 이용했다. 해당 파일 가장 아래에 위에서 
+복사한 문구&lt;code class=&quot;highlighter-rouge&quot;&gt;gem 'wdm', '&amp;gt;= 0.1.0'&lt;/code&gt;를 붙여 넣고 저장해 준다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1pTv4kq5rqoGFPpEbwEm76ut2TTj2DZbm&quot; alt=&quot;img8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다시 CMD창으로 넘어와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl-c&lt;/code&gt;로 작업중지를 해준다. 두 번 눌러주면 될 것이다.
+그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;을 다시 실행해 주자.&lt;/p&gt;
+
+&lt;p&gt;설치가 완료되면 다시 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;를 입력해주자.
+그럼 아래와 같이 나올 것이다. 이제 로컬 서버가 열렸다.
+표시된 주소를 브라우저창에 입력해보면 해당 블로그가 잘 열린것을 확인 할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1MgEDQj66ijeDU0QV6kFRe1numc_3o3sB&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이어지는 부분은 다음 블로그에서 이어서 작성하도록 하겠다.&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Kirk0201</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="github" />
+      
+
+      
+        <summary type="html">Github pages를 이용한 블로그 만들기는 여러 절로 구성되어 있습니다. Github pages를 이용한 블로그 만들기(1) Github pages를 이용한 블로그 만들기(2) 여지껏 Notion에 TIL을 작성해 오다가 문득 이런 생각이 들었다. 공부한것을 나만 보기엔 조금 아깝지 않는가?라는 생각 말이다. 그래서 지금이라도 남들한테도 조금 티를 내보기 위해 블로깅을 시작하기로 했다. 그래서 플랫폼을 생각해보다가 Github 잔디도 채우며 두 마리토끼를 잡을 수 있는 Github Pages를 이용하기로 했다. 사실 이 글을 거의 3일전에 준비했지만 준비중 여러가지 에러가 많이 생겨 지금에서야 적게 되었다.</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

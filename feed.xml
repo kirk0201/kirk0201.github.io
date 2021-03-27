@@ -1,0 +1,1691 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-03-28T07:17:56+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">IT Technical Blog</title><subtitle>나만의 TIL 블로그</subtitle><entry><title type="html">타입스크립트 배워보기!</title><link href="http://localhost:4000/ts-learn" rel="alternate" type="text/html" title="타입스크립트 배워보기!" /><published>2021-02-14T18:00:00+09:00</published><updated>2021-02-14T18:00:00+09:00</updated><id>http://localhost:4000/ts-learn</id><content type="html" xml:base="http://localhost:4000/ts-learn">&lt;h1 id=&quot;목차&quot;&gt;목차&lt;/h1&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;!-- TOC --&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#목차&quot;&gt;목차&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#타입스크립트-개요&quot;&gt;타입스크립트 개요&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#타입스크립트-설치&quot;&gt;타입스크립트 설치&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#타입스크립트-다루기&quot;&gt;타입스크립트 다루기&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#1-static-typing&quot;&gt;1. Static Typing&lt;/a&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#type-inference-타입-추론&quot;&gt;Type Inference (타입 추론)&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#type-명시&quot;&gt;Type 명시&lt;/a&gt;
+            &lt;ul&gt;
+              &lt;li&gt;&lt;a href=&quot;#interface로-타입의-구조를-정의하는-방법&quot;&gt;Interface로 타입의 구조를 정의하는 방법&lt;/a&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;a href=&quot;#-선택적-프로퍼티-활용&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;?&lt;/code&gt; 선택적 프로퍼티 활용&lt;/a&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;a href=&quot;#readonly로-읽기-전용-정의&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;readonly&lt;/code&gt;로 읽기 전용 정의&lt;/a&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;a href=&quot;#열거형enum과-리터럴-타입&quot;&gt;열거형Enum과 리터럴 타입&lt;/a&gt;
+                &lt;ul&gt;
+                  &lt;li&gt;&lt;a href=&quot;#enum-타입&quot;&gt;Enum 타입&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;#literal-타입&quot;&gt;literal 타입&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#2-데이터-타입&quot;&gt;2. 데이터 타입&lt;/a&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#유니온-타입&quot;&gt;유니온 타입&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#type-aliases&quot;&gt;Type Aliases&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#type-guard&quot;&gt;Type Guard&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#3-선택적-매개-변수와-기본-매개변수&quot;&gt;3. 선택적 매개 변수와 기본 매개변수&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- /TOC --&gt;
+
+&lt;h1 id=&quot;타입스크립트-개요&quot;&gt;타입스크립트 개요&lt;/h1&gt;
+
+&lt;p&gt;일반 &lt;code class=&quot;highlighter-rouge&quot;&gt;자바스크립트&lt;/code&gt; 컴파일되는 &lt;code class=&quot;highlighter-rouge&quot;&gt;자바스크립트 상위 호환(Superset)&lt;/code&gt;이다.
+즉 &lt;code class=&quot;highlighter-rouge&quot;&gt;자바스크립트&lt;/code&gt;의 모든 구문과 기능을 지원 하며 &lt;code class=&quot;highlighter-rouge&quot;&gt;자바스크립트&lt;/code&gt;에 포함 되지 않은 더 풍부한 구문과 
+추가 기능을 제공한다.&lt;/p&gt;
+
+&lt;p&gt;JS에서 변수는 문자열, 숫자, 불린 등 여러 타입의 값을 가질 수 있으므로 &lt;code class=&quot;highlighter-rouge&quot;&gt;약한 타입 언어&lt;/code&gt;라고 표현하여 비교적 유연하게 개발할 수 있는 환경을 제공하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;런타입 환경에서 쉽게 에러가 발생하는 단점&lt;/code&gt;이 있다.&lt;/p&gt;
+
+&lt;p&gt;반대로 타입스크립트는 &lt;code class=&quot;highlighter-rouge&quot;&gt;강한 타입 시스템&lt;/code&gt;을 적용하여 에러를 컴파일 환경에서 코드를 입력하는 동안 
+체크할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;그리고 타입스크립트는 프로그래밍 언어인 동시에 컴파일러이다.
+타입스크립트를 자바스크립트로 컴파일한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;버그를 최소화 -&amp;gt; 쉬운 유지 보수 -&amp;gt; 질 좋은 코드&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112712477-3e75f300-8f13-11eb-978c-81fb870f53b8.png&quot; alt=&quot;img_1&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;타입스크립트-설치&quot;&gt;타입스크립트 설치&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.typescriptlang.org/&quot;&gt;공식홈페이지&lt;/a&gt;로 이동하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;install locally&lt;/code&gt; 버튼을 클릭하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;npm&lt;/code&gt;으로 설치할 수 잇는 명령어가 나온다&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;typescript
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;타입스크립트-다루기&quot;&gt;타입스크립트 다루기&lt;/h1&gt;
+
+&lt;p&gt;간단한 예제들을 통해 배워보겠다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 매개변수에 타입을 지정하여 함수를 실행할 것이다. 타입스크립트는 컴파일러이기 때문에&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tsc 파일명&lt;/code&gt;을 통해 자바스크립트로 변환 하자.&lt;/p&gt;
+
+&lt;p&gt;그럼 같은 이름에 &lt;code class=&quot;highlighter-rouge&quot;&gt;js파일&lt;/code&gt;이 생성되면 &lt;code class=&quot;highlighter-rouge&quot;&gt;node&lt;/code&gt;명령어를 통해 실행할 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tsc -w 파일명&lt;/code&gt;  을 사용하면 따로 컴파일 명령어를 사용하지 않아도 실시간으로 컴파일을 해준다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;app.ts&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 매개변수에 타입을 지정&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;addName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 해당 인자로 1 숫자를 넣으면 에러가 발생한다&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;addName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// app.ts 컴파일&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;tsc&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ts&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 위 컴파일이 끝나면 app.js 생성&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// &quot;김&quot;출력&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;------------------------------&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;철수&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;중복된 함수 구현에러 발생시 (vscode 버그라고함)&lt;/p&gt;
+
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tsc --init&lt;/code&gt;으로 해결 가능&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;1-static-typing&quot;&gt;1. Static Typing&lt;/h2&gt;
+
+&lt;p&gt;타입스크립트의 큰 특징 중 하나는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Static Typing&lt;/code&gt; 기능을 자바스크립트 언어에 지원하는 것이다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Static Typing?&lt;/p&gt;
+
+  &lt;p&gt;타입을 선언하고 선언된 타입의 맞는 값만 할당이나 반환 되는 것&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;type-inference-타입-추론&quot;&gt;Type Inference (타입 추론)&lt;/h3&gt;
+
+&lt;p&gt;타입스크립트에서는 타입 표기가 없는 경우 코드를 읽고 분석하여 타입을 유추 할 수 있는 특징이 있다&lt;/p&gt;
+
+&lt;p&gt;app.ts&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 아래와 같은 코드를 입력시 두번째 a에서 할당값이 숫자가 아니기 때문에 에러가 발생함&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 타입스크립트는 자바스크립트의 superset이기 때문에 정상적으로 컴파일 된다.&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 이미 객체 property의 값의 타입 추론이 됨&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 할당 값을 바탕으로 타입 추론&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;는 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;에 산다`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 위 주석 때문에 name에 숫자로 재할당 하려하면 &lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 에러 발생&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;123&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// function에 마우스를 오버하면 -연산자를 통해 함수의 리턴 타입이 숫자일 것을 추론&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;type-명시&quot;&gt;Type 명시&lt;/h3&gt;
+
+&lt;p&gt;변수를 선언할 때, 변수 값의 타입을 명시함으로써 변수 값의 데이터 타입을 지정&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;남&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 다음과 같이 `object`로 함수에서 반환되는 값의 타입을 지정해 줄 수 있다.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 아래와 같이 반환되는 타입을 any, void가 아닌 값을 지정시 return값이 반드시 와야함&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getPerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 아래처럼 명시된 구조로 이용할 수 있다.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 반환되는 객체의 구조를 타입으로 지정&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 아래와 같이 반환 타입을 명시할 수 있지만 지저분해 보이는 것을&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// interface를 이용하여 효과적으로 처리할 수 있다.&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getPerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;interface로-타입의-구조를-정의하는-방법&quot;&gt;Interface로 타입의 구조를 정의하는 방법&lt;/h4&gt;
+
+&lt;p&gt;타입스크립트에서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;interface&lt;/code&gt;네이밍시 &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt;를 붙이지 않고 대문자로 이용&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// person인터페이스를 이용하여 반환값이 person구조를 가지도록 강제됨&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getPerson&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;남&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 아래와 같이 반환값이 다르다면 에러가 발생&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getPerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Hello world&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 와 같이 인터페이스를 타입으로 가지는 값은 인터페이스의 구조를 그 값으로 가지도록 강제된다&lt;/p&gt;
+
+&lt;h4 id=&quot;-선택적-프로퍼티-활용&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;?&lt;/code&gt; 선택적 프로퍼티 활용&lt;/h4&gt;
+
+&lt;p&gt;강제되는&lt;code class=&quot;highlighter-rouge&quot;&gt;interface&lt;/code&gt;를 좀 더 유연하게 이용하기 위해서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;interface&lt;/code&gt;내 에 정의된 
+특정 프로퍼티(선택적 프로퍼티)가 있어도 되고 없어도 된다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Option의 기호인 ?&lt;/code&gt;를 붙여서 사용한다&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;남&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 특정 프로퍼티 뒤에 ?를 붙이면 유연하게 사용 가능&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// age가 있어도되고 없어도 된다&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getPerson&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;남&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 아래와 같이 interface의 코드를 재사용이 가능하다&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;인터페이스에 프로퍼티로 메소드도 정의할 수 있다&lt;/p&gt;
+
+&lt;p&gt;메소드는 객체내에서 정의된 함수이므로 아래처럼 표현 가능&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 아래와 같이 메소드를 정의 가능&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// addComment(comment: string): string&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;addComment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;readonly로-읽기-전용-정의&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;readonly&lt;/code&gt;로 읽기 전용 정의&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;readonly&lt;/code&gt; 속성을 추가하여 읽기 전용 프로퍼티로 정의 가능하다&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;남&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;addComment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// readonly 속성 때문에 변경되지 않고 에러가 발생한다&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;❗ &lt;code class=&quot;highlighter-rouge&quot;&gt;interface&lt;/code&gt;는 코드가 렌더링 될때 아무런 영향력이 없다
+타입스크립트 컴파일러가 자바스크립트로 컴파일할때 인터페이스를 코드에서 삭제함&lt;/p&gt;
+
+  &lt;p&gt;즉 &lt;code class=&quot;highlighter-rouge&quot;&gt;interface&lt;/code&gt;는 타입스크립트에게 더 많은 정보를 제공하기 위해 존재&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;열거형enum과-리터럴-타입&quot;&gt;열거형Enum과 리터럴 타입&lt;/h4&gt;
+
+&lt;h5 id=&quot;enum-타입&quot;&gt;Enum 타입&lt;/h5&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;이란 연관된 아이템들을 함께 묶어서 표현 할 수 있는 수단&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// enum 선언&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenderType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;male&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;female&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenderType&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 기존 gender: string을 수정 &lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;addComment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenderType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;male&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//gender: &quot;남&quot;을 수정&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 &lt;code class=&quot;highlighter-rouge&quot;&gt;enum&lt;/code&gt;코드를 자바스크립트 컴파일 된 자바스크립트 코드에서 확인해보면 아래와 같다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112731361-12418d00-8f7a-11eb-9fb7-32fbc3dd221d.png&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;enum&lt;/code&gt; 속의 아이템 &lt;code class=&quot;highlighter-rouge&quot;&gt;male&lt;/code&gt;의 값은 &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; , &lt;code class=&quot;highlighter-rouge&quot;&gt;female&lt;/code&gt;의 값은 &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;을 나타낸다.
+아이템의 개수가 늘수록 숫자가 늘어나는 방식이다.
+이를 &lt;code class=&quot;highlighter-rouge&quot;&gt;숫자 열거형(Numeric Enum)&lt;/code&gt;이라고 한다.&lt;/p&gt;
+
+&lt;p&gt;이와 반대로 &lt;code class=&quot;highlighter-rouge&quot;&gt;문자형 열거형(String Enum)&lt;/code&gt;도 존재한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 아래와 같이 enum의 string 값을 할당해주면 된다&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenderType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;male&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;male&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;female&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;female&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenderType&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;addComment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenderType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;male&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String Enum&lt;/code&gt;은 숫자 열거형 처럼 자동 증가하는 기능은 없지만 코드를 실행할 때 읽기 쉬운 값을 주는 장점이 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;❗ &lt;code class=&quot;highlighter-rouge&quot;&gt;enum&lt;/code&gt;은 &lt;code class=&quot;highlighter-rouge&quot;&gt;interface&lt;/code&gt;와 달리 자바스크립트 코드로 컴파일시 코드가 사라지지 않고
+ 자바스크립트코드에 나타난다.&lt;/p&gt;
+
+  &lt;p&gt;이것은 &lt;code class=&quot;highlighter-rouge&quot;&gt;enum&lt;/code&gt;이 런타임에 존재하는 실체 객체라는걸 나타냄&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;literal-타입&quot;&gt;literal 타입&lt;/h5&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;readonly&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 	&lt;span class=&quot;nx&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;male&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;female&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// |을 이용하여 값을 구분 시켜주면 된다&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;addComment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;na&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ 		&lt;span class=&quot;na&quot;&gt;gender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;male&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// 리터럴 타입의 맞춰 수정&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;서울&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;na&quot;&gt;adult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PersonCard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;savePerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2-데이터-타입&quot;&gt;2. 데이터 타입&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;any&lt;/code&gt; 타입은 어떤 타입이든 가능하게 해준다.&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;any&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;하지만 타입스크립트에서 일반적인 규칙은 타입에 관한 더많은 정보를 명시할 수록 좋다&lt;/p&gt;
+
+  &lt;p&gt;따라서 &lt;code class=&quot;highlighter-rouge&quot;&gt;any&lt;/code&gt;타입 보다는 좀 더 명시적으로 타입을 정해서 효과적으로 코드를 
+유지 보수 하는 것이 좋다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;유니온-타입&quot;&gt;유니온 타입&lt;/h3&gt;
+
+&lt;p&gt;제한된 타입을 동시에 지정해서 사용하고 싶을때 사용한다&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// `|`를 이용하여 선택적 타입 지정 가능&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;파이프 라인(|)&lt;/code&gt;을 사용하여 간단하게 타입을 지정할 수 있다.&lt;/p&gt;
+
+&lt;h3 id=&quot;type-aliases&quot;&gt;Type Aliases&lt;/h3&gt;
+
+&lt;p&gt;만약 위와 같은 조합이 여러개 반복될 경우 같은 코드를 여러번 작성해야할 경우도 있을 것이다&lt;/p&gt;
+
+&lt;p&gt;이때 같은 코드를 여러번 반복하는 것 보다는 코드를 타입으로 지정하여 재활용 하는 것이 좋다&lt;/p&gt;
+
+&lt;p&gt;이때 &lt;code class=&quot;highlighter-rouge&quot;&gt;Type Aliases&lt;/code&gt;를 사용한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// type 키워드를 사용하여 새로운 타입 선언하는 방법&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;type-guard&quot;&gt;Type Guard&lt;/h3&gt;
+
+&lt;p&gt;유니온 타입을 사용할 때 코드 검증을 수행하는 것을 &lt;code class=&quot;highlighter-rouge&quot;&gt;Type Guard&lt;/code&gt;라고 함&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;NumOrStr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setItemPrice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;NumOrStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// item에서 에러가 발생 &lt;/span&gt;
+				  &lt;span class=&quot;c1&quot;&gt;// 매개변수 타입이 number와 string이 올 수 있지만 반면에&lt;/span&gt;
+    			  &lt;span class=&quot;c1&quot;&gt;// item에는 number 밖에 올수 없기 때문에 코드를 고쳐야함&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;setItemPrice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 코드를 아래와 같이 &lt;code class=&quot;highlighter-rouge&quot;&gt;typeof&lt;/code&gt; 연산자와 조건문을 사용하여 변환해 주면 에러를 해결 할 수있다&lt;/p&gt;
+
+&lt;p&gt;이 행위를 &lt;code class=&quot;highlighter-rouge&quot;&gt;Type Guard&lt;/code&gt;라고 한다&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;NumOrStr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setItemPrice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;NumOrStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;setItemPrice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3-선택적-매개-변수와-기본-매개변수&quot;&gt;3. 선택적 매개 변수와 기본 매개변수&lt;/h2&gt;
+
+&lt;p&gt;타입스크립트에서는 함수에 정의된 모든 매개 변수가 함수에 필요하다고 가정하기 때문에
+선언된 함수의 매개변수와 호출된 함수의 인자를 비교하여 수가 일치하지 않으면 에러를 발생한다&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 컴파일 가능한 함수&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;안녕&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;철수&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 에러 발생&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;안녕&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 에러 해결, 선택적 매개변수&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;안녕&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;❗ &lt;strong&gt;중요&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;전달되는 매개변수가 여러개이고 이중 몇가지만 선택적 매개변수인 경우 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;반드시 선택적 매개변수들은 필수 매개변수 뒤에 위치해야한다&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;위의 마지막 함수처럼 선택적 매개변수를 사용할때 그 값을 찾지 못할 경우 그 값이&lt;code class=&quot;highlighter-rouge&quot;&gt;undefined&lt;/code&gt;가 되는데 매개변수에 &lt;code class=&quot;highlighter-rouge&quot;&gt;default &lt;/code&gt;값을 지정하여 해결할 수있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-typescript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 선택적 매개변수, 기본 매개변수&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 타입스크립트의 타입 추론 특징을 이용하여 string으로 타입을 명시하지 않아도 된다&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;guest&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;안녕&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 화살표 함수로 변경&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;guest&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;chat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;안녕&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Kirk0201</name></author><category term="ts" /><summary type="html">목차</summary></entry><entry><title type="html">AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(2)</title><link href="http://localhost:4000/server-deploy2" rel="alternate" type="text/html" title="AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(2)" /><published>2021-02-09T18:00:00+09:00</published><updated>2021-02-09T18:00:00+09:00</updated><id>http://localhost:4000/server-deploy2</id><content type="html" xml:base="http://localhost:4000/server-deploy2">&lt;p&gt;&lt;span class=&quot;table-of-contents-list&quot;&gt;AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.&lt;br /&gt;&lt;/span&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    &lt;br /&gt;혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+&lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy2&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;지난 시간에 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS&lt;/code&gt;를 통해서 &lt;code class=&quot;highlighter-rouge&quot;&gt;EC2&lt;/code&gt;로 가상 환경에 컴퓨터를 만들었고
+우린 이 빈 컴퓨터에 서버 구동을 위한 도구들을 설치해 나갈 것이다&lt;/p&gt;
+
+&lt;p&gt;우선 &lt;code class=&quot;highlighter-rouge&quot;&gt;EC2&lt;/code&gt; 가상환경에 접속을 하고
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;node.js&lt;/code&gt;로 서버를 구성했기 때문에 &lt;code class=&quot;highlighter-rouge&quot;&gt;node.js&lt;/code&gt;를 설치하겠다&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;nvm을-이용하여-nodejs-설치&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NVM&lt;/code&gt;을 이용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 설치&lt;/h1&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential libssl-dev
+
+curl &lt;span class=&quot;nt&quot;&gt;-sL&lt;/span&gt; https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; install_nvm.sh // 한 줄
+
+bash install_nvm.sh
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; ~/.profile
+
+nvm &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# nvm 설치 확인&lt;/span&gt;
+nvm ls-remote         &lt;span class=&quot;c&quot;&gt;# 설치 가능한 버전 리스트를 보고 싶을때&lt;/span&gt;
+nvm &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;version&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# node원하는 버전을 설치 예시 - nvm install 14.15.0&lt;/span&gt;
+
+node &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 확인&lt;/span&gt;
+nvm &lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;default 버전 &lt;span class=&quot;c&quot;&gt;# 해당 버전을 default값으로 설정한다&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;가 설치가 완료되었으면 다음으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;nginx &lt;/code&gt;로 웹서버를 돌려서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Certbot&lt;/code&gt;을 이용하여  &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTTPS&lt;/code&gt;를 위한 인증서를 발급 받을 것이다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111656692-1a991a00-884e-11eb-9e8b-876117c0193c.png&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;2-nginx-설치&quot;&gt;2. Nginx 설치&lt;/h1&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;nginx
+
+/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 참고 사항
+
+systemctl start nginx // nignx 시작 확인
+systemctl status nginx // nginx 상태 확인
+systemctl stop nginx // nginx 정지
+	
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;/
+
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;vi /etc/nginx/sites-available/default 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;아래와 같이 server_name에 &lt;code class=&quot;highlighter-rouge&quot;&gt;DNS&lt;/code&gt; 명을 입력하고
+location / {} 안에 proxy_pass http://localhost:4000 을 추가해준다
+중간에 보이는 &lt;code class=&quot;highlighter-rouge&quot;&gt;root&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;index&lt;/code&gt;값들은 아래처럼 주석처리 해준다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111669772-78cbfa00-885a-11eb-8de2-d3620794daff.png&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;3-certbot-설치&quot;&gt;3. Certbot 설치&lt;/h1&gt;
+
+&lt;p&gt;인증서를 발급 받기 위해 &lt;code class=&quot;highlighter-rouge&quot;&gt;Certbot&lt;/code&gt;을 설치해 준다
+&lt;a href=&quot;https://certbot.eff.org/&quot;&gt;Certbot&lt;/a&gt; 해당 페이지에 상세한 설명이 나와있다.&lt;/p&gt;
+
+&lt;p&gt;위 페이지에 가서 &lt;code class=&quot;highlighter-rouge&quot;&gt;install certbot&lt;/code&gt;을 해준다. 그 후 나오는 페이지에서 우리는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Nginx&lt;/code&gt;로 인증을 받기 때문에
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Nginx&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;EC2&lt;/code&gt; 환경인 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ubuntu 20.04&lt;/code&gt;를 선택한다.&lt;/p&gt;
+
+&lt;p&gt;그럼 설치를 단계별로 알려주는 페이지가 나오는데 그 과정을 살펴보면 &lt;code class=&quot;highlighter-rouge&quot;&gt;snap&lt;/code&gt;을 최신화하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;snap&lt;/code&gt;을 이용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;certbot&lt;/code&gt;을 설치하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;nginx&lt;/code&gt;를 통해 인증서를 발급 한다는 내용이다&lt;/p&gt;
+
+&lt;p&gt;특별한게 없으니 설명대로 따라가자.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;snap&lt;/code&gt;을 이용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;certbot&lt;/code&gt;을 설치하기 때문에 &lt;code class=&quot;highlighter-rouge&quot;&gt;snap&lt;/code&gt;을 설치 또는 최신버전인지 확인한다&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112633494-c2c96700-8e7c-11eb-9c40-daab4e1dab91.png&quot; alt=&quot;img_1&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo snap install --classic certbot&lt;/code&gt;을 이용하여 설치한다
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo ln -s /snap/bin/certbot /usr/bub/certbot&lt;/code&gt; 명령어를 통해 복사해 온다&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112633728-0fad3d80-8e7d-11eb-8afe-0ea6442ed31e.png&quot; alt=&quot;img_2&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo certbot --nginx&lt;/code&gt;를 이용하여 실행한다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112634454-f5c02a80-8e7d-11eb-9de1-97967e5ddc1a.png&quot; alt=&quot;img_3&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;certbot&lt;/code&gt;이 실행되면 아래와 같은 선택지가 나오는데 다음과 같이 따라하자
+    &lt;ol&gt;
+      &lt;li&gt;본인의 이메일을 적어 넣자.&lt;/li&gt;
+      &lt;li&gt;약관의 동의하는가? &lt;code class=&quot;highlighter-rouge&quot;&gt;Y&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;EFF의 소식을 이메일로 받을 것인가? &lt;code class=&quot;highlighter-rouge&quot;&gt;N&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;4번째 항목에서는 위에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;nginx&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;server_name&lt;/code&gt;에 추가한 주소가 나올 것이다.
+콤마와 스페이스로 추가할 번호를 적어주자 ex) 1 2&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112635476-38cecd80-8e7f-11eb-9625-36dbc7ca7c30.png&quot; alt=&quot;img_4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112636072-ee9a1c00-8e7f-11eb-8bd0-ca9c3a3cbb35.png&quot; alt=&quot;img_5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;성공적으로 발급이되면 아래와 같이 출력되는데 빨간선으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;SSL인증서&lt;/code&gt;의 &lt;code class=&quot;highlighter-rouge&quot;&gt;pem키&lt;/code&gt;가 생성되니 해당 키를 이용하면 된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/letsencrypt/live/DNS명/fullchain.pem
+/etc/letsencrypt/live/DNS명/privkey.pem
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;파란색 선은 인증서의 만료일이니 만료되기 전 갱신하는 것을 잊지 말자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/112636512-86980580-8e80-11eb-884e-cd129b49e5a2.png&quot; alt=&quot;img_6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위에서 발급된 &lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt;를 본인이 작성한 서버에 추가하여 https 프로토콜로 구동해주면 된다&lt;/p&gt;
+
+&lt;p&gt;예제 코드는 다음과 같다&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// const는 변수 선언입니다.&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;https&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fs&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;options&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// letsencrypt로 받은 인증서 경로를 입력해 줍니다.&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;ca&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;readFileSync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;etc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;letsencrypt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;live&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;도메인&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이름&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fullchain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pem&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;readFileSync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;etc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;letsencrypt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;live&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;도메인&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이름&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;privkey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pem&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;readFileSync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;etc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;letsencrypt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;live&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;도메인&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이름&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pem&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;443&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 이 부분이 https서버를 만드는 부분&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 사이트 접속 시 나오는 내용입니다.&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;World&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;이슈&quot;&gt;이슈&lt;/h2&gt;
+
+&lt;h4 id=&quot;1-인증서-접근-에러-이슈&quot;&gt;1. 인증서 접근 에러 이슈&lt;/h4&gt;
+
+&lt;p&gt;나는 위 모든 작업을 마무리하고 인증서와 서버를 연결할 때 아래와 같은 문제가 발생하였다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo npm start&lt;/code&gt;를 하면 쉽게 해결이 되지만 보안적인 측면으로 좋지 않은 방법이라고 하여 아래와 같이 진행하였다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/letsencrypt/live/{DNS명}/fullchain.pem&lt;/code&gt;경로로 &lt;strong&gt;permission denied 에러&lt;/strong&gt;가 발생한다면
+우분투에 특정 &lt;code class=&quot;highlighter-rouge&quot;&gt;group&lt;/code&gt;과 &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt;를 생성하여 접근 권한을 주는 방식으로 해결하였다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stack overflow&lt;/code&gt;에 해당 글을 참고하였다 &lt;a href=&quot;https://stackoverflow.com/questions/48078083/lets-encrypt-ssl-couldnt-start-by-error-eacces-permission-denied-open-et&quot;&gt;stackoverflow&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Create group with root and nodeuser as members
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;addgroup nodecert
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;adduser nodeuser
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;adduser nodeuser nodecert
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;adduser root nodecert
+
+// Make the relevant letsencrypt folders owned by said group.
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chgrp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; nodecert /etc/letsencrypt/live
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chgrp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; nodecert /etc/letsencrypt/archive
+
+// Allow group to open relevant folders
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; 750 /etc/letsencrypt/live
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; 750 /etc/letsencrypt/archive
+
+// nodeuser로 사용자 변경
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;su nodeuser
+
+// 사용자 나가기?
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 사용자변경 명령어를 입력한뒤 다시 서버를 구동하면 해결될 것이다.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-443포트에-접근할-수-없는-에러&quot;&gt;2. 443포트에 접근할 수 없는 에러&lt;/h4&gt;
+
+&lt;p&gt;위 방법을 해결하니 &lt;code class=&quot;highlighter-rouge&quot;&gt;Error: listen EACCES: permission denied 0.0.0.0:443&lt;/code&gt;이 에러가 발생했다.
+찾아보니 위에 &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt;를 생성하여 해당 사용자 환경에서 서버를 구동하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;root&lt;/code&gt;권한이 아니기 때문에
+사용할 수 없다는 것을 알게 되었다.&lt;/p&gt;
+
+&lt;p&gt;일반 사용자가 &lt;code class=&quot;highlighter-rouge&quot;&gt;1024 포트&lt;/code&gt; 아래의를 사용하기 위해서는, &lt;code class=&quot;highlighter-rouge&quot;&gt;1024포트&lt;/code&gt; 위의 숫자로 서버를 띄우고, 해당 포트로
+들어오는 요청을 &lt;code class=&quot;highlighter-rouge&quot;&gt;443 포트&lt;/code&gt;로 리다이렉트 해줌으로써 해결한다&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 포트 확인
+// netstat이 설치되어 있지 않다면 설치 명령어가 출력되니 설치하여 사용  
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;netstat &lt;span class=&quot;nt&quot;&gt;-ntl&lt;/span&gt;
+
+// 포트 상태 확인
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; nat &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt;
+
+// 리다이렉트
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; nat &lt;span class=&quot;nt&quot;&gt;-A&lt;/span&gt; PREROUTING &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; tcp &lt;span class=&quot;nt&quot;&gt;--dport&lt;/span&gt; 443 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; REDIRECT &lt;span class=&quot;nt&quot;&gt;--to-port&lt;/span&gt; 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 명령어를 사용하여 리다이렉트를 해주고 포트 상태 확인 명령어로 리다이렉트가 제대로 설정되었는지 확인한 뒤 기존 서버를 &lt;code class=&quot;highlighter-rouge&quot;&gt;4000 포트 -&amp;gt; 8080 포트&lt;/code&gt;(내 기존 포트는 4000 이었다)로 바꿔 구동하고 다시 &lt;code class=&quot;highlighter-rouge&quot;&gt;nodeuser&lt;/code&gt;로 가서 실행하면 해결된다.&lt;/p&gt;
+
+&lt;h4 id=&quot;3-nodeuser에-sudo-권한-설정&quot;&gt;3. nodeuser에 sudo 권한 설정&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nodeuser&lt;/code&gt;사용자로 &lt;code class=&quot;highlighter-rouge&quot;&gt;pm2&lt;/code&gt;가 설치 되지 않는 에러가 발생시 아래와 같이 &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo 권한&lt;/code&gt;을 추가하여 진행하였다&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// root로 접근
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;su
+
+// 해당 파일에 특정 유저 계정이름이 추가되야 root 권한이 부여
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vi /etc/sudoers
+
+// 아래 명령어를 찾는다
+root &lt;span class=&quot;nv&quot;&gt;ALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=(&lt;/span&gt;ALL:ALL&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; ALL
+
+// 위 명령어 하단에 유저 계정 추가
+계정명 &lt;span class=&quot;nv&quot;&gt;ALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=(&lt;/span&gt;ALL:ALL&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; ALL
+ex] nodeuser &lt;span class=&quot;nv&quot;&gt;ALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=(&lt;/span&gt;ALL:ALL&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; ALL
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;4-pm2-설치&quot;&gt;4. PM2 설치&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PM2&lt;/code&gt;는 우리가 OS를 종료하거나 컴퓨터를 종료하더라도 서버를 계속 유지시키는 &lt;code class=&quot;highlighter-rouge&quot;&gt;process manager&lt;/code&gt;이다&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;npm install pm2 -g&lt;/code&gt;를 이용하여 설치하자&lt;/p&gt;
+
+&lt;p&gt;사용법은 아주 간단하다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pm2 examples&lt;/code&gt;를 치면 알기 쉬운 여러 예제들이 나오니 참고하여 실행하면 된다&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 서버를 실행할 스크립트를 넣는다
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;pm2 start app.js &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; app
+
+// pm2 상태 확인
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;pm2 status
+
+// pm2 시작
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;pm2 start
+
+// pm2 모니터로 로그확인
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;pm2 monit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.&lt;br /&gt;&lt;/span&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    &lt;br /&gt;혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+&lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy2&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Kirk0201</name></author><category term="Aws" /><summary type="html">AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2)</summary></entry><entry><title type="html">AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(1)</title><link href="http://localhost:4000/server-deploy" rel="alternate" type="text/html" title="AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(1)" /><published>2021-02-09T18:00:00+09:00</published><updated>2021-02-09T18:00:00+09:00</updated><id>http://localhost:4000/server-deploy</id><content type="html" xml:base="http://localhost:4000/server-deploy">&lt;p&gt;&lt;span class=&quot;table-of-contents-list&quot;&gt;AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.&lt;br /&gt;&lt;/span&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    &lt;br /&gt;혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+&lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./server-deploy&quot;&gt;AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./server-deploy2&quot;&gt;AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;저번 시간에 &lt;code class=&quot;highlighter-rouge&quot;&gt;클라이언트&lt;/code&gt;를 배포하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS 프로토콜&lt;/code&gt;을 이용하는 방법에 대해 복습해봤다.
+이번에는 &lt;code class=&quot;highlighter-rouge&quot;&gt;서버&lt;/code&gt;를 배포하는 방법에 대해 복습해 보겠다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;EC2&lt;/code&gt; 가상 환경을 선택하고 그 가상환경에 접속하는 방법을 알아볼 것이다.
+개인적으로 가상환경은 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ubuntu&lt;/code&gt;를 권장하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;Window10&lt;/code&gt;에서도 &lt;code class=&quot;highlighter-rouge&quot;&gt;CMD&lt;/code&gt;로 접속하는 방법도 찾아보았다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;만약 CMD 창에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt;를 쳤을 때 여러 옵션이 열거되지 않는다면 OpenSSH를 설치 해야 한다&lt;/p&gt;
+
+  &lt;p&gt;여기서는 간략하게만 설명하겠다 좀 더 정확한 정보는 직접 찾아보길 바란다
+윈도우10 &lt;code class=&quot;highlighter-rouge&quot;&gt;시작&lt;/code&gt; 버튼 우클릭하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;앱 및 기능&lt;/code&gt; 클릭&lt;/p&gt;
+
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;선택적 기능&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;기능 추가&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;OpenSSH 클라이언트&lt;/code&gt;설치&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h1 id=&quot;1-aws-ec2를-설정-및-인스턴스에-연결&quot;&gt;1. AWS EC2를 설정 및 인스턴스에 연결&lt;/h1&gt;
+&lt;p&gt;&lt;br /&gt;
+EC2는 클라우드 컴퓨팅 시스템이다.
+EC2는 말 그대로 가상의 컴퓨터 환경이기 떄문에 특정한 작업을 통해 이 환경에서 서버를 열면
+내 컴퓨터를 24시간 동안 켜서 서버를 유지할 필요 없이 서버를 24시간 열 수 있게 된다&lt;/p&gt;
+
+&lt;p&gt;우선 &lt;code class=&quot;highlighter-rouge&quot;&gt;EC2&lt;/code&gt;로 이동해서 새로운 &lt;code class=&quot;highlighter-rouge&quot;&gt;인스턴스&lt;/code&gt;를 생성 하자
+이 인스턴스를 통해 가상 환경에 접속할 수 있다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;인스턴스&lt;/code&gt;로 이동하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;인스턴스 시작&lt;/code&gt; 버튼을 클릭한다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 OS를 선택할 수 있다. 나는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ubuntu 20.04 LTS&lt;/code&gt;로 선택하고 넘어가자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111508053-9cc20980-878e-11eb-8dc4-0ee8372a789a.png&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위 과정을 거치고 나면 &lt;code class=&quot;highlighter-rouge&quot;&gt;가상 환경 컴퓨터의 사양&lt;/code&gt;을 선택하는 단계이지만 프리티어에게는 선택 권한이 없다.
+바로 다음 과정으로 넘어가자 &lt;code class=&quot;highlighter-rouge&quot;&gt;검토 및 시작&lt;/code&gt; 버튼을 누르자&lt;/p&gt;
+
+&lt;p&gt;이제 가장 중요한 &lt;code class=&quot;highlighter-rouge&quot;&gt;프라이빗 키&lt;/code&gt;를 선택할 수 있는 창이 나온다
+프라이빗 키란 가상 환경에 접속할 때 필요한 &lt;code class=&quot;highlighter-rouge&quot;&gt;보안키&lt;/code&gt;라고 생각하면 편하겠다.
+해당 키는 파일로 이루어져 있어 개인적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;구글 드라이브&lt;/code&gt;에 올려서 분실하는 일이 없도록 하자&lt;/p&gt;
+
+&lt;p&gt;기존의 키가 있는 사람은 기존 키를 선택하면 되고 없다면 새 키를 발급 받도록 한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;예전의 한 아이디로 프라이빗키를 받아 여러명이서 한 서버를 작업하기 위해 
+공유해서 사용한 적이 있는데 처음에는 정상적으로 접속이 되다가 어느 순간 파일이 손상되어 사용할 수 없게 되니&lt;/p&gt;
+
+  &lt;p&gt;나처럼 공유해서 사용하지 말고 깔끔하게 IAM 기능을 이용하여 공유하도록 하자&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;이제 가상환경으로 접속해보자. &lt;code class=&quot;highlighter-rouge&quot;&gt;인스턴스 상태&lt;/code&gt; 탭이 실행 중으로 바뀌었다면  &lt;code class=&quot;highlighter-rouge&quot;&gt;연결&lt;/code&gt;로 들어가서 가상환경에 접속할 준비를 한다. 그럼 3가지 탭 &lt;code class=&quot;highlighter-rouge&quot;&gt;EC2 인스턴스 연결&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Session Manager&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;SSH 클라이언트&lt;/code&gt;이 보인다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;EC2 인스턴스 연결&lt;/p&gt;
+
+  &lt;p&gt;해당 연결은 브라우저창으로 연결하는 방법이지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;vi&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;과 같은 텍스트 편집기를 사용하다 보면 가끔씩 화면이 깨지는 버그?가 생기기 때문에 &lt;code class=&quot;highlighter-rouge&quot;&gt;SSH 클라이언트&lt;/code&gt;로 &lt;code class=&quot;highlighter-rouge&quot;&gt;pem키&lt;/code&gt; 접속을 하는 것을 추천한다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SSH 클라이언트&lt;/code&gt;로 접속하기에는 간단한 몇 가지 작업이 필요하다 
+각 환경으로 설명하겠다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;리눅스 환경&lt;/p&gt;
+
+  &lt;p&gt;우분투 환경일 경우에는 아래 나온 순서를 그대로 따라가면 된다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;windows10-환경&quot;&gt;Windows10 환경&lt;/h2&gt;
+&lt;p&gt;&lt;br /&gt;
+윈도우에서는 chmod 400 권한 대신 &lt;code class=&quot;highlighter-rouge&quot;&gt;파일 보안 권한&lt;/code&gt;을 주면 된다
+폴더를 하나 생성하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;pem&lt;/code&gt;키를 넣어 준후 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;폴더 속성&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;보안 탭&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;고급&lt;/code&gt; 버튼을 클릭한다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Administrators&lt;/code&gt; 그룹을 선택하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;사용 권한 변경&lt;/code&gt; 을 누르고 
+하단의 &lt;code class=&quot;highlighter-rouge&quot;&gt;[상속 사용 안함]&lt;/code&gt; , &lt;code class=&quot;highlighter-rouge&quot;&gt;상속 권한 모두 제거합니다&lt;/code&gt; 클릭 한다&lt;/p&gt;
+
+&lt;p&gt;아래처럼 &lt;code class=&quot;highlighter-rouge&quot;&gt;보안&lt;/code&gt;탭으로 돌아와 &lt;code class=&quot;highlighter-rouge&quot;&gt;편집&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;추가&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;고급&lt;/code&gt; 클릭한다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111516963-e19e6e00-8797-11eb-9ef3-22e25d9b0b57.png&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;개체 유형&lt;/code&gt;을 클릭하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;사용자&lt;/code&gt;를 제외하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;체크&lt;/code&gt;를 없애자
+그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;지금 찾기&lt;/code&gt; 버튼을 눌러 현재  &lt;code class=&quot;highlighter-rouge&quot;&gt;윈도우 계정명&lt;/code&gt;을 클릭 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;확인&lt;/code&gt; 클릭하고 다시 확인을 하여 계정을 추가한다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111517884-e7488380-8798-11eb-9c5d-60e6c047f695.png&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래처럼 세 항목만 &lt;code class=&quot;highlighter-rouge&quot;&gt;허용&lt;/code&gt;을 하고 적용하자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111518234-38587780-8799-11eb-8ad7-86ce8c9087f2.png&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 모든 준비가 끝났다
+&lt;code class=&quot;highlighter-rouge&quot;&gt;CMD&lt;/code&gt;를 열어서 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ssh -i 폴더/전체/경로/암호키파일명.pem 서버사용자명@퍼블릭IP주소&lt;/code&gt;를 넣어주자
+ex] ssh -i C:\download\example.pem ubuntu@127.0.0.1&lt;/p&gt;
+
+&lt;p&gt;위에&lt;code class=&quot;highlighter-rouge&quot;&gt;서버사용자명&lt;/code&gt;과 &lt;code class=&quot;highlighter-rouge&quot;&gt;퍼블릭IP주소&lt;/code&gt;는  아래처럼 &lt;code class=&quot;highlighter-rouge&quot;&gt;EC2 인스턴스 연결&lt;/code&gt; 탭에 나와 있다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111519347-55417a80-879a-11eb-986a-bee2c3d8dc57.png&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위에서 가상 환경의 컴퓨터가 준비 되었지만 아직 빈 깡통이므로
+다음 블로그에서는 필요한 여러 도구들을 추가하는 과정을 적어나가도록 하겠다&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.&lt;br /&gt;&lt;/span&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    &lt;br /&gt;혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+&lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy2&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Kirk0201</name></author><category term="Aws" /><summary type="html">AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(1) AWS를 이용하여 서버 배포 및 HTTPS를 위해 Certbot으로 인증서 받기(2)</summary></entry><entry><title type="html">AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)</title><link href="http://localhost:4000/front-deploy2" rel="alternate" type="text/html" title="AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (2)" /><published>2021-02-07T18:00:00+09:00</published><updated>2021-02-07T18:00:00+09:00</updated><id>http://localhost:4000/front-deploy2</id><content type="html" xml:base="http://localhost:4000/front-deploy2">&lt;p&gt;&lt;span class=&quot;table-of-contents-list&quot;&gt;AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.&lt;br /&gt;&lt;/span&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    &lt;br /&gt;혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+&lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy2&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;어제 우리는 &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;설정까지 끝냈다.
+이제 두 가지 정도의 과정이 남았는데 한가지는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Route53&lt;/code&gt;과 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS cerification&lt;/code&gt;을 이용할 것이다.&lt;/p&gt;
+
+&lt;p&gt;여기서 의문을 갖는 사람도 있을 것이라 생각한다. 전 과정 첫번째에서 이미 무료로 &lt;code class=&quot;highlighter-rouge&quot;&gt;DNS&lt;/code&gt;를 만들었는데 
+왜 &lt;code class=&quot;highlighter-rouge&quot;&gt;Route53&lt;/code&gt;을 또 쓰는지에 관한 의문일 것이라 생각한다.&lt;/p&gt;
+
+&lt;p&gt;그 이유는 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS 프로토콜&lt;/code&gt;을 위한 인증서를 받는 과정의 일환으로써 이용하는 것이다.&lt;/p&gt;
+
+&lt;p&gt;우선 &lt;code class=&quot;highlighter-rouge&quot;&gt;Route 53&lt;/code&gt;에 접속하여 호스팅 영역 생성을 해주자.&lt;/p&gt;
+
+&lt;p&gt;이전 과정 &lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;에서 생성했던 도메인으로 넣어주면 되겠다 이후 완료 &lt;code class=&quot;highlighter-rouge&quot;&gt;영역 생성 버튼&lt;/code&gt;을 눌러주자
+(ex : example.com)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111439053-4f22ae00-8748-11eb-8958-c7285ad9d94d.png&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;결과물로 아래와 같이 4개의 ns 값이 생성되는데 이 주소를 그대로 복사하고 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;으로 다시 이동하자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111439621-e5ef6a80-8748-11eb-94f4-1ac7870dc402.png&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위의 4개를 아래의 위치에 붙여 넣어주자
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;manage domain&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;management tool&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;name server&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Use custom&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;단 4개의 주소 끝의 &lt;code class=&quot;highlighter-rouge&quot;&gt;.&lt;/code&gt;은 제외하도록 한다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111440200-775edc80-8749-11eb-88e1-3d9233d3a404.png&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다시 &lt;code class=&quot;highlighter-rouge&quot;&gt;Route 53&lt;/code&gt;으로 돌아와서 &lt;code class=&quot;highlighter-rouge&quot;&gt;레코드 생성&lt;/code&gt; 버튼을 눌러주자&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;만약 빠른 레코드 생성으로 접속되었다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;마법사로 전환&lt;/code&gt; 버튼을 클릭하자&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;첫 화면에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;라우팅 정책&lt;/code&gt;은 Default 값인 단순 라우팅을 선택하고 넘어가자
+그 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;레코드 구성 탭&lt;/code&gt;에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;레코드 생성&lt;/code&gt; 버튼을 클릭하자&lt;/p&gt;
+
+&lt;p&gt;첫 번째 원에는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;에서 발급받은 주소가 적혀 있을 것이고
+두 번째 &lt;code class=&quot;highlighter-rouge&quot;&gt;값/트래픽 라우팅 대상&lt;/code&gt;은 &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront 배포에 대한 별칭&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;미국 동부&lt;/code&gt;로 선택하자
+그리고 배포 선택에는&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Distribution settings&lt;/code&gt;-&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;general&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;domain name&lt;/code&gt;
+복사하여 넣어주고 생성하면 완료된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111441627-d4a75d80-874a-11eb-9eef-7e4988adad04.png&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS Certification&lt;/code&gt;을 이용하여 인증서를 발급받기 위해
+&lt;code class=&quot;highlighter-rouge&quot;&gt;AWS Certificate Manager&lt;/code&gt;로 접속하자
+그럼 &lt;code class=&quot;highlighter-rouge&quot;&gt;인증서 프로비저닝&lt;/code&gt;과 &lt;code class=&quot;highlighter-rouge&quot;&gt;사설 인증 기관&lt;/code&gt; 두 가지 항목 중 &lt;code class=&quot;highlighter-rouge&quot;&gt;인증서 프로비저닝&lt;/code&gt;으로 시작한다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111446429-bdb73a00-874f-11eb-8d78-73fc635f217d.png&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 &lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;에서 발급 받은 주소를 &lt;code class=&quot;highlighter-rouge&quot;&gt;www.&lt;/code&gt;을 붙인 것과 안 붙인것 두 개를 넣어주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111446954-4afa8e80-8750-11eb-901b-8279384fea62.png&quot; alt=&quot;img6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 과정을 실행하고 나오는 &lt;code class=&quot;highlighter-rouge&quot;&gt;태그 추가&lt;/code&gt;는 생략하고 넘어가자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111447212-8dbc6680-8750-11eb-9118-221ff34f9e94.png&quot; alt=&quot;img7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같은 화면이 나오면 &lt;code class=&quot;highlighter-rouge&quot;&gt;도메인&lt;/code&gt;명을 클릭하여 주자 그럼 그 아래 사진과 같은 버튼이 활성화 되니
+두 개 모두 활성화 시키자 그럼 자동으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;cname값&lt;/code&gt;이 추가 된다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111447615-f3a8ee00-8750-11eb-98f3-a20f11fd7527.png&quot; alt=&quot;img8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111447801-23f08c80-8751-11eb-9540-cdf43ec496dd.png&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 발급될 때까지 기다리도록 하자 경우에 따라 발급받는데 시간이 걸릴 수도 있으니 여유를 가지고 기다리도록하자. 
+검증 성공으로 발급이 완료가 되었다면&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;로 돌아가서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Distribution settings&lt;/code&gt;에 &lt;code class=&quot;highlighter-rouge&quot;&gt;General&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt;로 들어가 주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111491178-fde1e100-877e-11eb-9da7-6a9b638f6d8b.png&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CNAMEs&lt;/code&gt;에는 인증서 발급 때 적었던 &lt;code class=&quot;highlighter-rouge&quot;&gt;도메인 명&lt;/code&gt;을 적어주자 ex) example.com
+                                                                                                          www.example.com
+규칙으로는 다음 줄에 이어서 적어도 되고 &lt;code class=&quot;highlighter-rouge&quot;&gt;,&lt;/code&gt;를 이용하여 추가하여도 된다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;인증서가 정상적으로 발급되었다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;SSL Certificate&lt;/code&gt;에 &lt;code class=&quot;highlighter-rouge&quot;&gt;Custom SSL Ceritificate&lt;/code&gt;가  활성화 되었을 것이다.  위 그림에서 세 번째 원을 클릭해서 인증서를 선택할 수 있다
+반대로 인증서가 발급되었는데 활성화가 되지 않았거나 클릭이 안된다면 ` 쿠키`를 모두 삭제하고 다시 로그인하여 보자.&lt;/p&gt;
+
+  &lt;p&gt;보시다시피 위 사진처럼 활성화가 안되서 당황했지만 이 같은 방법으로 해결이 되었으니 참고 바란다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;이제 인증서를 추가했기 때문에 &lt;code class=&quot;highlighter-rouge&quot;&gt;General&lt;/code&gt; 탭에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Behaviors&lt;/code&gt; 탭 으로 이동하여
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Edit&lt;/code&gt;에 있는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Viewer Protocol Policy&lt;/code&gt; 항목을&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HTTP and HTTPS&lt;/code&gt;에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Redirect HTTP to HTTPS&lt;/code&gt;로 바꿔 완료해주자&lt;/p&gt;
+
+&lt;p&gt;이제 모든 작업이 끝낫으니 본인의 사이트로 이동하여&lt;code class=&quot;highlighter-rouge&quot;&gt; HTTPS 프로토콜&lt;/code&gt;을 이용하는지 확인하자&lt;/p&gt;
+
+&lt;p&gt;이것으로 클라이언트 배포 부분을 마치겠다.&lt;/p&gt;</content><author><name>Kirk0201</name></author><category term="Aws" /><summary type="html">AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2)</summary></entry><entry><title type="html">AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (1)</title><link href="http://localhost:4000/front-deploy" rel="alternate" type="text/html" title="AWS를 이용하여 클라이언트 배포 및 HTTPS 인증 받기 (1)" /><published>2021-02-06T17:00:00+09:00</published><updated>2021-02-06T17:00:00+09:00</updated><id>http://localhost:4000/front-deploy</id><content type="html" xml:base="http://localhost:4000/front-deploy">&lt;p&gt;&lt;span class=&quot;table-of-contents-list&quot;&gt;AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다.&lt;br /&gt;&lt;/span&gt;
+&lt;span class=&quot;table-of-contents-list&quot;&gt;해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 
+    &lt;br /&gt;혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다.
+&lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./front-deploy2&quot;&gt;AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+오늘은 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS&lt;/code&gt;를 이용하여 배포하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS 인증&lt;/code&gt;을 받는 과정을 써보려고 한다. 그동안 과금 문제로 닫아두었던 프로젝트 파일들을 이용할 예정이다.&lt;br /&gt;몇 천원도 안되는 가격이지만 백수에게는 그마저 부담스럽다… &lt;br /&gt;무튼 클라이언트와 서버가 미리 준비되어 있기 때문에 배포에 관련해서만 다룰 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AWS&lt;/code&gt;를 이용하지 않고 다른 무료 플랫폼을 찾아 무료로 배포해보려고 했지만 
+정적인 웹이 아닌 동적인 웹페이지를 완전 무료로 배포하는데는 한계가 있는것 같다.
+그래서 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS&lt;/code&gt;로 배포하는 방법을 복습할겸
+&lt;code class=&quot;highlighter-rouge&quot;&gt;NOTION&lt;/code&gt;에 정리했던 문서를 블로깅할겸 작성해 나가겠다.&lt;/p&gt;
+
+&lt;h1 id=&quot;1-freenom을-이용하여-dns를-무료로-설정&quot;&gt;1. Freenom을 이용하여 DNS를 무료로 설정&lt;/h1&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;을 이용하는데 앞서 간단하게 &lt;code class=&quot;highlighter-rouge&quot;&gt;DNS&lt;/code&gt;에 대해서 알아보도록 하겠다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;DNS(Domain Name System)란&lt;/p&gt;
+
+  &lt;p&gt;IP주소(예: 192.0.2.44)를 사람이 읽기 쉬운 어떤 문자로 변환하는 것을 말한다&lt;/p&gt;
+
+  &lt;p&gt;우리는 평소에 DNS를 이용하기 때문에 숫자로된 &lt;code class=&quot;highlighter-rouge&quot;&gt;IP주소&lt;/code&gt;가 아닌 문자들로 구성된 주소로
+원하는 페이지에 이동이 가능한 것이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;으로 이동하여 진행해 보자.&lt;/p&gt;
+
+&lt;h2 id=&quot;freenom&quot;&gt;&lt;a href=&quot;https://www.freenom.com/&quot;&gt;Freenom&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;해당 페이지로 이동하여 회원가입 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;Register a new domain&lt;/code&gt; 클릭&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111301659-d06d3880-8695-11eb-97f3-d0f0a5f2d003.png&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 &lt;code class=&quot;highlighter-rouge&quot;&gt;빨간네모&lt;/code&gt;에 원하는 주소명을 입력하면 이용가능한 &lt;code class=&quot;highlighter-rouge&quot;&gt;최상위 도메인&lt;/code&gt;이 나온다. &lt;br /&gt;
+원하는 &lt;code class=&quot;highlighter-rouge&quot;&gt;도메인&lt;/code&gt;을 선택 후 가장 아래 &lt;code class=&quot;highlighter-rouge&quot;&gt;Checkout&lt;/code&gt; 버튼을 눌러주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111301914-1a561e80-8696-11eb-9ef2-3ad2a0eec7a6.png&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Freenom&lt;/code&gt;은 최고 1년까지 무료로 &lt;code class=&quot;highlighter-rouge&quot;&gt;DNS&lt;/code&gt;를 이용할 수 있다.&lt;br /&gt; 추가로 이용하고 싶다면 1년마다 갱신을 해줘야 한다. &lt;br /&gt;하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;무료&lt;/code&gt;이다 보니 DNS 유지에 대해서 말이 많다. &lt;br /&gt;좋은 단어로 구성된 DNS명 경우 하루아침에 빼앗아 가는 경우도 있다고 하니&lt;br /&gt; 부담 없는 프로젝트에서 이용하길 바란다.&lt;/p&gt;
+
+&lt;p&gt;어쨋든 우리는&lt;code class=&quot;highlighter-rouge&quot;&gt;Period&lt;/code&gt;에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;무료&lt;/code&gt;로 가장 길게 이용할 수 있는 12달을 선택하여주자.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;continue&lt;/code&gt;를 누르고 다시 확인 버튼을 누르면 생성이 완료된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111304516-2ee7e600-8699-11eb-8e38-e861df02725c.png&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Services&lt;/code&gt;에 있는 &lt;code class=&quot;highlighter-rouge&quot;&gt;My domains&lt;/code&gt;에 내가 선택한 DNS가 들어왔는지 확인해보자.&lt;/p&gt;
+
+&lt;h1 id=&quot;2-aws-s3에-클라이언트를-업로드&quot;&gt;2. AWS S3에 클라이언트를 업로드&lt;/h1&gt;
+
+&lt;p&gt;AWS는 회원가입시 12개월 동안 프리티어 모드로 이용이 가능하다. 단 회원가입시 신용카드가 필요하니 미리 준비해야한다. 그리고 처음에는 몰랐지만 프리티어라고 해서 완전 무료가 아니다. 어느 할당량 이상으로 사용하게 되면 자동으로 요금이 결제가 된다.&lt;/p&gt;
+
+&lt;p&gt;요금 설명에 있는 프리티어 한계양을 보면 적은양이 아닌데 프로젝트때 4명이서 이용했는데 몇 천원정도 요금이 청구 되었었다. 정확한 계산법은 잘모르겠다… 
+어쨋든 소액의 결제는 될수도있으니 너무 놀라지 말자!
+자세한건 &lt;code class=&quot;highlighter-rouge&quot;&gt;결제탭&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;청구서&lt;/code&gt;에서 확인이 가능하며 알림 설정도 가능하다!&lt;/p&gt;
+
+&lt;p&gt;그럼 S3에 대해서 간략하게 알아보겠다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Amazon S3(Amazon Simple Storage Service)란?&lt;/p&gt;
+
+  &lt;p&gt;인터넷 &lt;code class=&quot;highlighter-rouge&quot;&gt;스토리지&lt;/code&gt; 서비스이다. 용량에 관계 없이 파일을 저장 가능하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;웹(HTTP 프로토콜)에서 파일&lt;/code&gt;로 접근
+가능하다. S3자체로도 블로그나 포트폴리오 페이지 같은 &lt;code class=&quot;highlighter-rouge&quot;&gt;정적 웹서비스&lt;/code&gt;가 가능하다.&lt;/p&gt;
+
+  &lt;p&gt;동적 웹페이지와 정적 웹페이지가 섞여 있을때 &lt;code class=&quot;highlighter-rouge&quot;&gt;동적 웹페이지는 EC2&lt;/code&gt;로 &lt;code class=&quot;highlighter-rouge&quot;&gt;정적 웹페이지는 S3&lt;/code&gt;로 이용하면 성능과 비용을 모두 효율적으로 할 수 있다.&lt;/p&gt;
+
+  &lt;p&gt;EC2와 EBS로 구축하는것 보다 비용이 저렴하다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;는 스토리지 서비스이다.&lt;br /&gt;
+이 글을 쓰면서 &lt;code class=&quot;highlighter-rouge&quot;&gt;스토리지와 DB의 차이&lt;/code&gt;가 궁금하여 찾아보았다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;스토리지란&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;컴퓨터에 데이터를 저장하는 저장소의 역할을 수행
+즉 파일이 담긴다&lt;/p&gt;
+
+  &lt;p&gt;&lt;strong&gt;DB란?&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;통합하여 관리되는 데이터의 집합체를 의미
+중복된 데이터를 없애고, 자료를 구조화하여, 효율적인 처리를 할 수 있다
+그래서 여러 업무에 여러 사용자가 데이터 베이스를 이용 가능하다&lt;/p&gt;
+
+  &lt;p&gt;&lt;strong&gt;스토리지와 DB 차이&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;스토리지는 파일 형태라면 무엇이든 담을 수 있지만
+DB에 파일을 담기 위해서는 어떤 가공을 통해 담아야 한다&lt;/p&gt;
+
+  &lt;p&gt;예를 들어 게시판에 글을 작성하면 DB에 저장되지만
+첨부한 업로드는 스토리지에 담긴다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;이제 본격적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;세팅 과정을 진행해보도록 하겠다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;AWS&lt;/code&gt;콘솔에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;에 접속하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷&lt;/code&gt;이라는 항목이 나오는데 우린 여기서 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷만들기&lt;/code&gt; 버튼을 눌러주자버킷의 이름은 고유해야하기 때문에 중복되지 않을 &lt;code class=&quot;highlighter-rouge&quot;&gt;고유한 이름&lt;/code&gt;으로 작성하고 
+외부에서 접속이 가능하게 해야하기 때문에 &lt;code class=&quot;highlighter-rouge&quot;&gt;퍼블릭 엑세스 차단&lt;/code&gt;을 해제하고 진행하도록 하자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111346907-09bb9d80-86c2-11eb-8bc6-81a9f3cba01a.png&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111347074-31126a80-86c2-11eb-9cc2-0926d8c91332.png&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷&lt;/code&gt;이 생성되었을 것이다.
+미리 준비한 클라이언트 빌드 파일들을 버킷으로 업로드해 사용할 예정이기 때문에 해당 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷&lt;/code&gt;으로 접속하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;속성&lt;/code&gt;탭에 있는 &lt;code class=&quot;highlighter-rouge&quot;&gt;정적 웹 사이트 호스팅&lt;/code&gt;을 편집해주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111347541-a8e09500-86c2-11eb-96b5-4f6d73303778.png&quot; alt=&quot;img6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111347641-be55bf00-86c2-11eb-9a7d-043638e523a8.png&quot; alt=&quot;img7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;권한&lt;/code&gt;탭으로 이동하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷 정책&lt;/code&gt;에 &lt;code class=&quot;highlighter-rouge&quot;&gt;편집&lt;/code&gt; 버튼을 눌러 나오는 화면에서
+&lt;code class=&quot;highlighter-rouge&quot;&gt;정책 생성기&lt;/code&gt;버튼을 클릭하여 다음 작업을 이어간다&lt;/p&gt;
+
+&lt;p&gt;아래 사진에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Actions&lt;/code&gt;에서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;GetObject&lt;/code&gt;를 선택하였다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Amazon Reasource Name&lt;/code&gt;은 해당 &lt;code class=&quot;highlighter-rouge&quot;&gt;input&lt;/code&gt;아래 예제가 적혀있으니 참고하여 적길바란다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111348011-1f7d9280-86c3-11eb-9b24-09e8a12a9b40.png&quot; alt=&quot;img8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;모든 작업이 완료 되었다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Add Statement&lt;/code&gt; 버튼을 클릭하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;Generate Policy&lt;/code&gt;로 정책을 생성해 준다. 이후 나온 정책을 복사하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷 정책 편집&lt;/code&gt; 페이지에 붙여넣고 저장해주자&lt;/p&gt;
+
+&lt;p&gt;이제 클라이언트 &lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt; 폴더의 내용을 업로드 한다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;폴더를 업로드할때 파일들이 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷&lt;/code&gt; 최상위로 업로드 해야한다&lt;/p&gt;
+
+  &lt;p&gt;예를 들어 &lt;code class=&quot;highlighter-rouge&quot;&gt;버킷&lt;/code&gt;에 &lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;라는 폴더 안에 파일들이 존재한다면 버킷&lt;code class=&quot;highlighter-rouge&quot;&gt;엔드포인트&lt;/code&gt;에서 정상적으로
+웹페이지가 출력되지 않을 것이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;3-cloudfront-설정&quot;&gt;3. CloudFront 설정&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;에서 제공해주는 엔드포인트로도 배포가 가능하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;를 이용하는 이유는 다음과 같다&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;HTTPS 배포&lt;/li&gt;
+  &lt;li&gt;엣지 로케이션을 이용한 더 빠른 속도&lt;/li&gt;
+  &lt;li&gt;S3 직접 공유보다 저렴한 비용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;안타깝게도 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;에서 제공하는 주소는 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS&lt;/code&gt;가아닌 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;주소라 보안에 취약하다.
+하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;를 이용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS&lt;/code&gt;로 쉽게 배포할수 있게 도와준다.&lt;/p&gt;
+
+&lt;p&gt;그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;를 이용해 직접 배포하는 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt; 버킷으로 설정한 &lt;code class=&quot;highlighter-rouge&quot;&gt;지역의 저장소로만&lt;/code&gt; 전세계 사용자가 요청을 보내 먼 곳에서 요청이 올수록 속도가 느려지지만&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;를 사용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;전세계 모든 엣지 로케이션&lt;/code&gt;에 &lt;code class=&quot;highlighter-rouge&quot;&gt;캐싱&lt;/code&gt;을 해두고 유저와 가장 가까운 엣지에 요청을 보내도록하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;로 직접 배포하는 것보다 속도가 빠르다.&lt;/p&gt;
+
+&lt;p&gt;또한 &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;의 요금이 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt; 요금보다 저렴하여 비용절감 효과도 있다&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;그럼 AWS 콘솔에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudFront&lt;/code&gt;를 찾아 접속하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Create Distribution&lt;/code&gt;이라는 버튼을 클릭하여
+아래와 같이 세팅하여 준다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Origin Domain Name&lt;/code&gt;을 클릭하면 방금 &lt;code class=&quot;highlighter-rouge&quot;&gt;S3&lt;/code&gt;에서 만든 버킷 주소를 선택할 수 있다
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Origin ID&lt;/code&gt;도 위 버킷 주소가 클릭되면 자동으로 작성된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Viewer Protocol Policy&lt;/code&gt;에서 현재 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS 주소&lt;/code&gt;가 없다면 첫번째를 선택하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS 주소&lt;/code&gt;가 존재한다면 두 번째로 선택해서 바로 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTPS&lt;/code&gt;로 &lt;code class=&quot;highlighter-rouge&quot;&gt;리다이렉트&lt;/code&gt; 시켜주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111352067-273f3600-86c7-11eb-8426-235b79fc27c4.png&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;쭉 내리다보면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Default Root Object&lt;/code&gt; 항목에 &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt;을 반드시 넣어주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111353028-35da1d00-86c8-11eb-828f-82ecd6082e3e.png&quot; alt=&quot;img10&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;를 이용한 프로젝트일 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;react-route-dom&lt;/code&gt;을 이용한다면 다음 설정이 필요하다&lt;/p&gt;
+
+&lt;p&gt;방금 생성한 &lt;code class=&quot;highlighter-rouge&quot;&gt;Distribution&lt;/code&gt;을 클릭하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;Distribution Settings&lt;/code&gt;로 이동한다
+그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Error Pages&lt;/code&gt;탭으로 이동하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;Create Custom Error Response&lt;/code&gt; 버튼을 클릭해 해주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111353299-82bdf380-86c8-11eb-8e6e-7ee5b4f9f44a.png&quot; alt=&quot;img11&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 설정해 주자&lt;/p&gt;
+
+&lt;p&gt;추가로 &lt;code class=&quot;highlighter-rouge&quot;&gt;Error code 403&lt;/code&gt;으로도 동일하게 추가 페이지를 작성해주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/45046152/111353770-f4963d00-86c8-11eb-899c-c81320858ea9.png&quot; alt=&quot;img12&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 클라이언트 배포는 거의 마무리 되어 간다&lt;/p&gt;
+
+&lt;p&gt;글이 너무 길어져 나머지는 2편에서 이어가도록 하겠다.&lt;/p&gt;</content><author><name>Kirk0201</name></author><category term="Aws" /><summary type="html">AWS를 이용하여 배포하기는 여러 절로 구성되어 있습니다. 해당글은 직접 경험을 바탕으로 정리한 것을 공유하는 글입니다. 혹시 잘못된 정보거나 부족한 정보에 대해 피드백을 주신다면 감사하겠습니다. AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(1) AWS를 이용하여 클라이언트 배포 및 HTTPS를 위한 인증서 받기(2) 오늘은 AWS를 이용하여 배포하고 HTTPS 인증을 받는 과정을 써보려고 한다. 그동안 과금 문제로 닫아두었던 프로젝트 파일들을 이용할 예정이다.몇 천원도 안되는 가격이지만 백수에게는 그마저 부담스럽다… 무튼 클라이언트와 서버가 미리 준비되어 있기 때문에 배포에 관련해서만 다룰 것이다.</summary></entry><entry><title type="html">Set함수와 do…while문</title><link href="http://localhost:4000/javascript-basic" rel="alternate" type="text/html" title="Set함수와 do...while문" /><published>2021-02-05T16:00:00+09:00</published><updated>2021-02-05T16:00:00+09:00</updated><id>http://localhost:4000/javascript-basic</id><content type="html" xml:base="http://localhost:4000/javascript-basic">&lt;p&gt;오늘은 간단하면서 익숙하지 않던? 함수를 알아보도록 하겠다
+며 칠전 프로그래머스에서 알고리즘 문제를 3시간 정도 걸려서 푼 문제를 
+아주 간단하게 풀어낸 분의 코드에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Set()함수&lt;/code&gt;의 용이함을 깨닫게 되어 이렇게 글로 쓰게 되었다.
+이 함수를 이용하면 아주 쉽게 &lt;code class=&quot;highlighter-rouge&quot;&gt;중복되는 요소를 삭제하고 고유한 값들만 남게 재구성 할 수 있다는 것이 가장 큰 장점&lt;/code&gt;인 것 같다.&lt;/p&gt;
+
+&lt;h1 id=&quot;set-함수&quot;&gt;Set() 함수&lt;/h1&gt;
+
+&lt;p&gt;자료형에 관계 없이 원시 값과 객체 값과 객체 참조 모두 유일한 값을 저장할 수 있다&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arrs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newArrs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[...&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arrs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+    
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newArrs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[ 1, 2, 3, 4 ]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/* 모든 코드의 변수는 공유되고 있다 */&lt;/span&gt; 
+&lt;span class=&quot;nx&quot;&gt;arrs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arrs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newArrs2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newArrs2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[ 1, 2, 3, 4 ]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;위 와 같이 Set함수를 이용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reduce&lt;/code&gt;같은 복잡한 매서드를 이용하지 않고도 아주 손쉽게 중복 요소를 제거 할 수 있다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Array.from&lt;/code&gt;을 이용하여 배열로 바꿀 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Set함수는 매개변수로 반복가능한 객체(iterable)을 받아 Set객체를 리턴한다&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;arrs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arrs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Set { 1, 2, 3, 4 }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;has&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;               &lt;span class=&quot;c1&quot;&gt;// 배열의 includes처럼 해당 요소를 찾고 boolean값을 반환한다&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;has&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt;                 &lt;span class=&quot;c1&quot;&gt;// 배열의 length 대신 size를 이용하여 길이를 알수있다&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// 해당 요소를 삭제함 mutable(원본값이 변함)&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                &lt;span class=&quot;c1&quot;&gt;// 해당 요소를 추가한다&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;true
+4
+true
+Set { 2, 3, 4, 1 }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이처럼 Set함수 값을 이용할때 사용되는 매서드는 일반적인 배열 매서드와 조금 다르므로 주의하자&lt;/p&gt;
+
+&lt;h1 id=&quot;dowhile문&quot;&gt;do…while문&lt;/h1&gt;
+
+&lt;p&gt;반복문에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;for문&lt;/code&gt;이나 &lt;code class=&quot;highlighter-rouge&quot;&gt;while문&lt;/code&gt;은 자주 사용하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;do...while문&lt;/code&gt;은 나에겐 상대적으로 생소한 문법이었다.
+우연히 발견한 페이지에서서 참고해 &lt;code class=&quot;highlighter-rouge&quot;&gt;prompt&lt;/code&gt;와 함께 사용해보니 이해하는데 유용해 보았다.&lt;/p&gt;
+
+&lt;p&gt;우선 &lt;code class=&quot;highlighter-rouge&quot;&gt;while&lt;/code&gt;문과 &lt;code class=&quot;highlighter-rouge&quot;&gt;do...while&lt;/code&gt;문의 가장 큰 차이점은 조건식이 실행되는 순서라고 한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;condition&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;condition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;한 번도 실행되지 않는다&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;무조건 한번은 실행한다&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;condition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;무조건 한번은 실행한다
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 식을 보면 &lt;code class=&quot;highlighter-rouge&quot;&gt;while문&lt;/code&gt;은 &lt;code class=&quot;highlighter-rouge&quot;&gt;do...while문&lt;/code&gt;보다 조건식이 먼저 실행되는데 &lt;code class=&quot;highlighter-rouge&quot;&gt;Falsy&lt;/code&gt;한 값이기에 내부 코드가 실행되지 않지만
+&lt;code class=&quot;highlighter-rouge&quot;&gt;do...while&lt;/code&gt;문은 내부 코드가 먼저 실행된 후에 조건식이 실행되기에 &lt;code class=&quot;highlighter-rouge&quot;&gt;무조건 한번은 코드가 실행되는 특징이 있다&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;다음으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;prompt&lt;/code&gt;를 이용하여 조건식이 충족하지 않다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;무한 loop&lt;/code&gt;를 돌리는 예제를 알아보자&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;answer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;parseInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;1 + 1 = ?&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;answer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;입력 : &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;answer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; 오답 입니다!&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;answer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;입력 : &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;answer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; 정답 입니다!&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 식에서 유의할점은 &lt;code class=&quot;highlighter-rouge&quot;&gt;scope&lt;/code&gt; 규칙에 의해 do 내부의 &lt;code class=&quot;highlighter-rouge&quot;&gt;변수 answer&lt;/code&gt;을 선언할때 &lt;code class=&quot;highlighter-rouge&quot;&gt;let&lt;/code&gt;이 아닌 &lt;code class=&quot;highlighter-rouge&quot;&gt;var&lt;/code&gt;를 써야 한다는 점이다.&lt;/p&gt;
+
+&lt;p&gt;그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;prompt&lt;/code&gt;는 &lt;code class=&quot;highlighter-rouge&quot;&gt;입력받은 문자열&lt;/code&gt;을 반환하고 아무것도 입력하지 않는다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;빈 문자열&lt;/code&gt;, 취소를 누르면 &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt;을 반환한다&lt;/p&gt;
+
+&lt;p&gt;위에서 조건식이 숫자와 비교하므로 &lt;code class=&quot;highlighter-rouge&quot;&gt;문자열을 숫자로 바꾸는 작업&lt;/code&gt;이 필요하다&lt;/p&gt;</content><author><name>Kirk0201</name></author><category term="Javascript" /><summary type="html">오늘은 간단하면서 익숙하지 않던? 함수를 알아보도록 하겠다 며 칠전 프로그래머스에서 알고리즘 문제를 3시간 정도 걸려서 푼 문제를 아주 간단하게 풀어낸 분의 코드에서 Set()함수의 용이함을 깨닫게 되어 이렇게 글로 쓰게 되었다. 이 함수를 이용하면 아주 쉽게 중복되는 요소를 삭제하고 고유한 값들만 남게 재구성 할 수 있다는 것이 가장 큰 장점인 것 같다.</summary></entry><entry><title type="html">Github pages로 블로그 만들기(2)</title><link href="http://localhost:4000/github-pages-install2" rel="alternate" type="text/html" title="Github pages로 블로그 만들기(2)" /><published>2021-02-03T01:00:00+09:00</published><updated>2021-02-03T01:00:00+09:00</updated><id>http://localhost:4000/github-pages-install2</id><content type="html" xml:base="http://localhost:4000/github-pages-install2">&lt;p&gt;이전 포스트에 이어서 설치를 이어가겠다.
+마지막에 로컬에서 서버를 열어서 블로그가 열리긴했지만,
+빌드를 할때 수많은 에러들이 올라간것을 봤을 것 이다.&lt;/p&gt;
+
+&lt;h2 id=&quot;에러-해결&quot;&gt;에러 해결&lt;/h2&gt;
+
+&lt;p&gt;아래처럼 사진 위쪽이 모두 에러다.
+이 에러를 해결해 보도록 하자. 
+개인적으로 이 에러를 해결하기 위해 가장 오랜 시간이 걸렸다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1MgEDQj66ijeDU0QV6kFRe1numc_3o3sB&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 댓글이 나를 살렸다…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1KEhXC4ldyzfKdjGPM3lNGiZbDrKY3Whx&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;기존에 열었던 &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt;을 다시 열어서 아래와 같이 바꿔주자!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1EcrRd25lOJllxp8EpUxMuURrBq_NF2Pv&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle update jekyll&lt;/code&gt;을 실행해준다.
+다시 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;를 실행해준다.
+드디어 아래와 같이 깔끔하게 에러가 해결이 되었다!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1kd3Ah8Ll2lSai3T50Kvjy0LfFKXYapFM&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 배포를 해보자
+우선 Github로 가서 새로운 repo를 생성한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;단 repo명은 &lt;code class=&quot;highlighter-rouge&quot;&gt;(githubname).github.io&lt;/code&gt;로 생성한다&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1dPyBmgt0OmqL-ugpcnmTC3I3-zJ_k52w&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아까 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;를 한 결과를 다시 살펴보면 아래처럼 어느 경로로 빌드파일을 저장했는지 알 수 있다. 
+우린 나중에 해당 폴더를 &lt;code class=&quot;highlighter-rouge&quot;&gt;Git repo&lt;/code&gt;로 올려서 배포해주는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1K_g6U8f93T1EK5XH4dui2vkWQFeuEA9p&quot; alt=&quot;img6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위에 사진처럼 다른 상위 폴더에서 조작할 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;git&lt;/code&gt;설정을 할때 불편한 부분이 있을 수 있어서 블로그 폴더에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; 이라는 파일을 찾아서 
+자신에 맞는 개인정보로 바꿔준뒤 진행하겠다. 변경한 부분은 코드 위에 간단한 설명과 함께 &lt;code class=&quot;highlighter-rouge&quot;&gt;#한글&lt;/code&gt;로 표현하였다&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Jekyll configuration&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;markdown: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kramdown&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;highlighter: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rouge&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;paginate: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# it will paginate after this number&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;language: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'en-uk'&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;words_per_minute: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# edit baseurl to simply '/' if using as your personal page (instead of a project page)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# /로 설정&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;baseurl: &lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/
+
+# Website info
+title: Ghost
+description: The professional publishing platform
+cover: assets/im&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cover&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;jpg&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;logo: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;logo_dark: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;favicon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;favicon: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;favicon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;CNAME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#add cname for website to be created&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Social info&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;navigation: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;True&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# show the navbar links&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;subscribers: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;True&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# you need to connect an external service for this to work,&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# if 'True' the submit button is disabled for now, but you can change that&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# by editing `_includes/subscribe-form.html`&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;twitter:  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# replace by your username&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;facebook:  &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# replace by your username&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 댓글 기능을 이용할때 필요한 정보&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Disqus&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;disqus: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;disqus_shortname: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# replace with your disqus username&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Google Analytics&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;google_analytics: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;UA&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;69281367&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# replace with your GA tracking identifier&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Permalinks&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;permalink: &lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/:title
+# permalink: /&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:author&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# permalink: /tag/:tag&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Authors' info in `_data/authors.yml`&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Tags' info in `_data/tags_info.yml`&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# gems and other configs&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;plugins_dir: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_plugins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;plugins: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paginate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;ss&quot;&gt;feed:
+  path: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;xml&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Additional settings available on the front-matter&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Site logo in the index.html (as in demo.ghost.io)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Author's page cover in _layouts/author.html&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# The same for page.html and tag.html layouts&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Post's page cover as a per-post basis _posts/...&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Disqus comments as a per-post basis&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Settings for building master branch with travis-ci&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# with jekyll-travis&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Settings for deploy rake task&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Username and repo of Github repo, e.g.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# https://github.com/USERNAME/REPO.git&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# username defaults to ENV['GIT_NAME'] used by Travis&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# repo defaults to USERNAME.github.io&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Branch defaults to &quot;source&quot; for USERNAME.github.io&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# or &quot;master&quot; otherwise&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;safe: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;lsi: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;False&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Github 계정명&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;username: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Github repo 명&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;repo: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;io&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;branch: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;relative_source: 
+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;# 빌드 경로 설정 (기존 설정은 상위 폴더에 있어 git작업에 불편함이 있어서 아래처럼 바꿧다)&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;destination: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jasper2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 최종적으로 블로그로 이용될 주소&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;production_url:  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Github repo 주소&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;source_url:  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kirk0201&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 빌드할때 포함하지 않을 폴더나 파일을 지정해준다.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 위에서 현재폴더로 빌드경로를 바꿧기 때문에 아래 첫번째 줄 처럼 jasper2-pages를 추가해준다&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;exclude:
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jasper2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pages&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;assets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;css&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node_modules&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;travis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;yml&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Gemfile&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Gemfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;lock&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;GHOST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;txt&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gulpfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;LICENSE&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;json&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;json&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Rakefile&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;README&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;md&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;py&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;changelog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;md&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;*.Rmd&quot;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;많은 설정을 바꿧기 때문에 다시 빌드를 해준하고 진행하자.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 블로그 폴더를 확인해보면 같은 폴더안에 jasper2-pages가 생성된 것을 확인할 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;기존에 상위에 생긴 폴더는 필요없으니 지워주도록 하자&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;지금부터는 편의상 &lt;code class=&quot;highlighter-rouge&quot;&gt;Git bash&lt;/code&gt;를 이용하겠다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Git bash&lt;/code&gt;로 &lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2-pages&lt;/code&gt;폴더로 이동한뒤 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;git&lt;/code&gt;을 이용하기 위해 &lt;code class=&quot;highlighter-rouge&quot;&gt;git init&lt;/code&gt;을 하여 활성화 하자.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com@DESKTOP-DQ7PCJE MINGW64 /d/blog
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;jasper2-pages/
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/blog/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+Initialized empty Git repository &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;D:/jasper2-pages/.git/
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;아까 &lt;code class=&quot;highlighter-rouge&quot;&gt;Github repo&lt;/code&gt;를 생성한 화면으로 돌아가면 아래와 같은 코드가 있을 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1e2p5bO6BasmtM8Oalx0gJrax7cetdMTT&quot; alt=&quot;img7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 코드를 이어서 적어 넣자&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com@DESKTOP-DQ7PCJE MINGW64 /d/blog/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add origin https://github.com/kirk0201/kirk0201.github.io.git
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/blog/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; // 해당 코드로 위에 remote가 잘 적용되었는지 확인해보자
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 해당 폴더의 파일들을 &lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt;메세지를 작성한뒤 &lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;하여 올려주면 된다&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com@DESKTOP-DQ7PCJE MINGW64 /d/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; // 모든 파일을 add함
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;블로그 첫 배포&quot;&lt;/span&gt;
+
+com@DESKTOP-DQ7PCJE MINGW64 /d/jasper2-pages
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push origin master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Github repo&lt;/code&gt;에 업데이트가 되었는지 확인한뒤
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Github계정명.github.io&lt;/code&gt;로 브라우저에서 접속해 보면 성공이다!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;_config.yml에서 설정이 잘못된 경우 빌드가 제대로 되지 않아 사진이 깨질수 있으니 주의하길 바란다.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;p&gt;기본적으로 Jekyll build는 &lt;code class=&quot;highlighter-rouge&quot;&gt;development&lt;/code&gt; 세팅된다. 만약 실제 GitHub Page에 Publishing할 목적으로 build하는 것이라면 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;JEKYLL_ENV&lt;/code&gt; 환경변수의 값을 &lt;code class=&quot;highlighter-rouge&quot;&gt;production&lt;/code&gt;으로 설정한 후 build를 진행해야 합니다. (&lt;a href=&quot;https://jekyllrb.com/docs/configuration/environments/&quot;&gt;참고링크&lt;/a&gt;)&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1Zd9HLMiqpqhrWcGTXC6MeYDdVGjqKdES&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;</content><author><name>Kirk0201</name></author><category term="github" /><summary type="html">이전 포스트에 이어서 설치를 이어가겠다. 마지막에 로컬에서 서버를 열어서 블로그가 열리긴했지만, 빌드를 할때 수많은 에러들이 올라간것을 봤을 것 이다.</summary></entry><entry><title type="html">Github pages로 블로그 만들기(1)</title><link href="http://localhost:4000/github-pages-install" rel="alternate" type="text/html" title="Github pages로 블로그 만들기(1)" /><published>2021-02-02T17:00:00+09:00</published><updated>2021-02-02T17:00:00+09:00</updated><id>http://localhost:4000/github-pages-install</id><content type="html" xml:base="http://localhost:4000/github-pages-install">&lt;p&gt;&lt;span class=&quot;table-of-contents-list&quot;&gt;Github pages를 이용한 블로그 만들기는 여러 절로 구성되어 있습니다. &lt;/span&gt;&lt;/p&gt;
+&lt;ul class=&quot;table-of-contents-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;./github-pages-install&quot;&gt;Github pages를 이용한 블로그 만들기(1) &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;./github-pages-install2&quot;&gt;Github pages를 이용한 블로그 만들기(2) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+여지껏 Notion에 TIL을 작성해 오다가 문득 이런 생각이 들었다. 공부한것을 나만 보기엔 
+조금 아깝지 않는가?라는 생각 말이다. 그래서 지금이라도 남들한테도 조금 티를 내보기 위해 
+블로깅을 시작하기로 했다.
+그래서 플랫폼을 생각해보다가 Github 잔디도 채우며 두 마리토끼를 잡을 수 있는 &lt;strong&gt;Github Pages&lt;/strong&gt;를 이용하기로 했다.
+사실 이 글을 거의 3일전에 준비했지만 준비중 여러가지 에러가 많이 생겨 지금에서야 적게 되었다.&lt;/p&gt;
+
+&lt;h2 id=&quot;github-pages란-무엇인가&quot;&gt;&lt;strong&gt;Github Pages란 무엇인가?&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Github 저장소에 있는 내용을 바탕으로 무료로 웹페이지를 통해 보여줄 수 있는 서비스이다. 
+즉 무료로 웹 서버를 구축할 수 있다. 그리고 깃허브에서 제공하는 &lt;u&gt;정적 사이트 호스팅 서비스&lt;/u&gt;로 
+정적 사이트 생성기인 Jekyll을 지원한다&lt;/p&gt;
+
+&lt;h2 id=&quot;정적-사이트-호스팅-서비스란&quot;&gt;&lt;strong&gt;정적 사이트 호스팅 서비스란&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;정적 웹페이지는 쉽게 말해 동적 웹 페이지와 반대 되는 말로써
+서버에 있는 데이터를 스크립트에 의해 가공하여 전달하는 것이 아니라
+서버에 미리 저장되있던 파일을 그대로 전달하는 사이트를 호스팅하는 서비스를 말한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;즉 따로 가공이 필요없는 정적인 데이터를 미리 빌드하여 저장한 것을 호스팅 해주는 서비스라고 할 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;그리고 이 블로그를 준비하면서 접하게된 &lt;a href=&quot;http://jekyllrb-ko.github.io/&quot;&gt;jekyll&lt;/a&gt;에 대해서도 간략하게 알아보겠다
+jekyll은 정적인 웹사이트 생성기로 Ruby언어를 기반으로 제작되었으며 마크업 언어로 작성된 텍스트를 이용하여 
+레이아웃을 사용해 정적 웹사이트를 생성해주는 도구로 생각하면 편하겠다.&lt;/p&gt;
+
+&lt;p&gt;이제 본격적으로 설치를 해보겠다
+현재 Windows10 환경에서 설치를 진행하였다.&lt;/p&gt;
+
+&lt;h2 id=&quot;ruby와-jekyll-설치&quot;&gt;Ruby와 Jekyll 설치&lt;/h2&gt;
+
+&lt;p&gt;Jekyll을 사용하기 위해선 Ruby가 설치 되어 있어야 하므로 Ruby부터 설치해보겠다.
+나는 현재 윈도우 환경에서 진행하고 있기에 윈도우를 기준으로 설명하겠다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Windows10 환경에서 진행할때 혹시  계정명이 한글이라면 영문으로 바꾸고 시작하자.
+Ruby가 한글 지원이 좋지 못하기 때문에 에러가 발생할 수 있다고 한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;루비-다운로드--httpswwwruby-langorgkodownloads&quot;&gt;루비 다운로드 : &lt;a href=&quot;https://www.ruby-lang.org/ko/downloads/&quot;&gt;https://www.ruby-lang.org/ko/downloads/&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;해당페이지로 이동하면 각 OS별로 설치하는 방법이 설명 되어있는데 필자는 Windows환경이므로 위 페이지에 있는 RubyInstaller 링크에 들어가서 설치를 해보겠다.&lt;/p&gt;
+
+&lt;p&gt;해당 링크를 들어가서 Download를 누르면 아래페이지가 나오는데
+아래 표시한데로 추천 버전이 존재하니 해당 버튼을 눌러 다운을 하였다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1aLIw_tWoJ9wNIH8Mc_QEtGdAhv51qCUP&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다운을 받고 설치를 완료하자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1uF7Lse6RHVJAMy5DLXbXcQAJNGmL8bYq&quot; alt=&quot;img2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 사진을 표시한 이유는 디폴트 설치영역이 C:이지만 필자는 C에 용량이 얼마 남지 않아 어쩔수없이 D:로 설치하는 것이니 착오 없길 바란다.
+나와 같은 이유가 아니라면 특별히 건드릴것 겂이 install을 하길 바란다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1OBZAayjLKig1alC83ylj9faNIb1w43Ct&quot; alt=&quot;img3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;설치가 완료되면 아래와 같이 나오는데 1번 3번을 선택하라 나오는데 우린 1번을 선택하여 설치를 이어가자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1Eqhus8BCds2Yr8xlF4AJuChwR7C1ehuZ&quot; alt=&quot;img4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같은 화면이 표시되었다면 설치가 완료된 것이다. 다음 단계로 넘어가자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1WAa-_TJUB8yIdbNJqze1NvWbYXiyuq_-&quot; alt=&quot;img5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;루비를 모두 설치하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt;를 설치한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;gem&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;install&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bundler&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;설치가 제대로 되었는지 확인한다&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;C:\Users\com&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;jekyll&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;4.2.0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt;는 Ruby application 개발을 위한 일관된 환경을 제공한다.
+우린 gem의 dependency관리하는 기능을 이용할 것이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;node.js에 npm이나 python pip과 같은 역할이라고 생각해도 될듯하다
+추후 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;을 이용하여 Gemfile에 있는 젬들을 설치할 것이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;여기까지 준비과정은 모두 마쳤다.
+이제 다양한 Jekyll Themes에서 마음에 드는 템플릿을 골라보자&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;http://jekyllthemes.org/&lt;/li&gt;
+  &lt;li&gt;https://jekyllthemes.io/free&lt;/li&gt;
+  &lt;li&gt;http://themes.jekyllrc.org/&lt;/li&gt;
+  &lt;li&gt;https://github.com/topics/jekyll-theme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;필자는 &lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2&lt;/code&gt;라는 Theme를 골라서 이용해보겠다.
+테마를 가져와서 사용하는 방법은 &lt;code class=&quot;highlighter-rouge&quot;&gt;fork&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;download&lt;/code&gt;가 있지만
+조금 더 설명하기 간편한 &lt;code class=&quot;highlighter-rouge&quot;&gt;download&lt;/code&gt;를 이용하겠다.&lt;/p&gt;
+
+&lt;p&gt;테마를 다운받고 압축을 푼다 필자는 미리  &lt;code class=&quot;highlighter-rouge&quot;&gt;D:/blog&lt;/code&gt;폴더를 준비하여
+해당 폴더에 압축을 풀었다. 혹시 CMD를 두려워하는 사람을 위해 자세하게 적겠다.
+필자는 명령 프롬프트(cmd)를 이용하여 진행하였다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;C:\Users\com&amp;gt; D:       // D드라이브로 이동
+D:\&amp;gt;cd blog            // blog폴더로 이동
+D:\blog&amp;gt;bundle install // 해당 폴더 Gemfile에 있는 젬 설치하는 명령어
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;다음과 같이 표시 된다면 정상적으로 설치가 된것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1vCi2EEQDLK2sasCmUiiyveHPiFaKwKtd&quot; alt=&quot;img6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;을 이용하여 사이트를 빌드하여 로컬 서버에 적용한다&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;D:\blog&amp;gt; bundle exec jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;여기서 끝났다면 좋겠지만 아쉽게도 아래처럼 에러가 하나 발생한다
+다른 테마에서도 발생안할수도 있지만 혹시 발생한다면 아래에 있는 문구를 복사하여주자&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1vA0onA5s2h-n69BcFyMVYmApJAhrg6pr&quot; alt=&quot;img7&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그리고 해당 테마가있는 폴더로 와서 Gemfile을 열어준다 필자는 워드패드로 열어서 이용했다. 해당 파일 가장 아래에 위에서 
+복사한 문구&lt;code class=&quot;highlighter-rouge&quot;&gt;gem 'wdm', '&amp;gt;= 0.1.0'&lt;/code&gt;를 붙여 넣고 저장해 준다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1pTv4kq5rqoGFPpEbwEm76ut2TTj2DZbm&quot; alt=&quot;img8&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다시 CMD창으로 넘어와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl-c&lt;/code&gt;로 작업중지를 해준다. 두 번 눌러주면 될 것이다.
+그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;을 다시 실행해 주자.&lt;/p&gt;
+
+&lt;p&gt;설치가 완료되면 다시 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;를 입력해주자.
+그럼 아래와 같이 나올 것이다. 이제 로컬 서버가 열렸다.
+표시된 주소를 브라우저창에 입력해보면 해당 블로그가 잘 열린것을 확인 할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drive.google.com/uc?id=1MgEDQj66ijeDU0QV6kFRe1numc_3o3sB&quot; alt=&quot;img9&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이어지는 부분은 다음 블로그에서 이어서 작성하도록 하겠다.&lt;/p&gt;</content><author><name>Kirk0201</name></author><category term="github" /><summary type="html">Github pages를 이용한 블로그 만들기는 여러 절로 구성되어 있습니다. Github pages를 이용한 블로그 만들기(1) Github pages를 이용한 블로그 만들기(2) 여지껏 Notion에 TIL을 작성해 오다가 문득 이런 생각이 들었다. 공부한것을 나만 보기엔 조금 아깝지 않는가?라는 생각 말이다. 그래서 지금이라도 남들한테도 조금 티를 내보기 위해 블로깅을 시작하기로 했다. 그래서 플랫폼을 생각해보다가 Github 잔디도 채우며 두 마리토끼를 잡을 수 있는 Github Pages를 이용하기로 했다. 사실 이 글을 거의 3일전에 준비했지만 준비중 여러가지 에러가 많이 생겨 지금에서야 적게 되었다.</summary></entry></feed>
